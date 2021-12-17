@@ -4,7 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 import { AnimesService } from './animes.service';
 import { AnimesController } from './animes.controller';
 import { SonicModule } from 'src/sonic/sonic.module';
-import { AnimeSchema } from './schemas/anime.schema';
+import { AnimeSchema } from './entities/anime.entity';
 @Module({
   imports: [
     HttpModule,

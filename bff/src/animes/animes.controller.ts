@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AnimesService } from './animes.service';
 import { CreateAnimeDto } from './dto/create-anime.dto';
@@ -40,5 +41,11 @@ export class AnimesController {
     @Body() createAnimeDto: CreateAnimeDto,
   ): Promise<CreateAnimeDto> {
     return this.animesService.create(createAnimeDto);
+  }
+
+  @Get('sonic?')
+  async getAnimeForSonic(@Query('param') param: string) {
+    console.log(param);
+    return await this.animesService.getAnimeForSonic(param);
   }
 }

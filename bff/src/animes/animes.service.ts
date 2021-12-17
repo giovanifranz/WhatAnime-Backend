@@ -5,8 +5,9 @@ import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { AnimeByTitle, AnimeById, Quote } from './entities/anime.entity';
-import { sonicChannelIngest } from 'src/sonic/sonic';
+import { AnimeByTitle, AnimeById, Quote } from './types/animes.types';
+import { Anime } from './entities/anime.entity';
+import { sonicChannelIngest, sonicChannelSearch } from 'src/sonic/sonic';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 
 const jikanAPI = 'https://api.jikan.moe/v3';
@@ -81,7 +82,7 @@ export class AnimesService {
     return id;
   }
 
-  async create(anime: CreateAnimeDto): Promise<AnimeById> {
+  async create(anime: CreateAnimeDto): Promise<Anime> {
     const createdAnime = new this.animeModel(anime);
     const animeSaved = await createdAnime.save();
 
@@ -100,5 +101,20 @@ export class AnimesService {
     );
 
     return animeSaved;
+  }
+
+  async getAnimeForSonic(param: string) {
+    const result = await sonicChannelSearch.query(
+      'anime-database',
+      'animes',
+      param,
+      { lang: 'eng' },
+    );
+    const jsonResult = [];
+
+    for (let index = 0; index < result.length; index++) {
+      jsonResult.push(await this.animeModel.findById(result[index]).exec());
+    }
+    return jsonResult;
   }
 }

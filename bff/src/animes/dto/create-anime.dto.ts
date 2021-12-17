@@ -1,3 +1,3 @@
-import { AnimeById } from '../entities/anime.entity';
+import { Anime } from '../entities/anime.entity';
 
-export class CreateAnimeDto extends AnimeById {}
+export class CreateAnimeDto extends Anime {}

@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AnimesModule } from './animes/animes.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://mongo:27017/whatanime'),
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(process.env.MONGO_DSN, {
+      useNewUrlParser: true,
+    }),
     AnimesModule,
   ],
 })
