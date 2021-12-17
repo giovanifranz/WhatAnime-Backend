@@ -1,8 +1,8 @@
 .docker
 sonic/store
-bff/.env
+node/.env
 
 # compiled output
-bff/dist
-bff/node_modules
+node/dist
+node/node_modules
 

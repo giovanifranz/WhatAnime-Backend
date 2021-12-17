@@ -3,13 +3,13 @@ version: '3'
 services:
 
   app:
-    build: ./bff
+    build: ./node
     container_name: app
     entrypoint: dockerize -wait tcp://mongo:27017 -timeout 30s ./entrypoint.sh
     ports:
       - "3333:3333"
     volumes:
-      - "./bff:/home/node/app"
+      - "./node:/home/node/app"
     networks:
       - network-whatanime
     depends_on:
