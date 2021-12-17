@@ -29,4 +29,9 @@ export class AnimesController {
   async findQuote() {
     return await this.animesService.findQuote();
   }
+
+  @Get('/random')
+  async findRandomId() {
+    return await this.animesService.findRandomId();
+  }
 }

@@ -55,4 +55,23 @@ export class AnimesService {
     );
     return data;
   }
+
+  async findRandomId() {
+    const date = Math.floor(+new Date() / 1000);
+    const myRandomFunctionAnime = date.toString().slice(4, 13).split('');
+    const newArray = myRandomFunctionAnime
+      .slice(1, 6)
+      .map((x) => parseInt(x, 10));
+    const sum = newArray.reduce(function (sum, i) {
+      return sum + i;
+    });
+    const id = this.httpService
+      .get(`${jikanAPI}/top/anime/${myRandomFunctionAnime[0]}/tv`)
+      .pipe(
+        map(async (response) => {
+          return parseInt(response.data.top[sum].mal_id.toString(), 10);
+        }),
+      );
+    return id;
+  }
 }
