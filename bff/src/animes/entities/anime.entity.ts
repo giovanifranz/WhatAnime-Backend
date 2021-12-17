@@ -25,12 +25,10 @@ export class AnimeById {
     Sequel?: {
       mal_id: number;
       name: string;
-      type: string;
     }[];
     Prequel?: {
       mal_id: number;
       name: string;
-      type: string;
     }[];
     Other?: {
       mal_id: number;

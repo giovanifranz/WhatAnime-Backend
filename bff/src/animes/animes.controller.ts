@@ -35,10 +35,10 @@ export class AnimesController {
     return this.animesService.findRandomId();
   }
 
-  /*@Post()
+  @Post()
   async create(
     @Body() createAnimeDto: CreateAnimeDto,
   ): Promise<CreateAnimeDto> {
-    return this.dbService.create(createAnimeDto);
-  }*/
+    return this.animesService.create(createAnimeDto);
+  }
 }

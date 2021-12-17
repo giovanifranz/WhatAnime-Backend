@@ -7,8 +7,8 @@ export const AnimeSchema = new mongoose.Schema({
   year: Number,
   score: Number,
   image: String,
-  title_english: String,
-  title_japanese: String,
+  title_english: { type: String, required: false },
+  title_japanese: { type: String, required: false },
   type: String,
   source: String,
   episodes: Number,
@@ -16,11 +16,14 @@ export const AnimeSchema = new mongoose.Schema({
   duration: String,
   airedString: String,
   premiered: String,
-  studios: [
-    {
-      name: String,
-    },
-  ],
+  studios: {
+    type: [
+      {
+        name: String,
+      },
+    ],
+    required: false,
+  },
   rating: String,
   aired: [
     {
@@ -28,37 +31,51 @@ export const AnimeSchema = new mongoose.Schema({
     },
   ],
   related: {
-    Sequel: [
-      {
-        mal_id: Number,
-        name: String,
-        type: String,
-      },
-    ],
-    Prequel: [
-      {
-        mal_id: Number,
-        name: String,
-        type: String,
-      },
-    ],
-    Other: [
-      {
-        mal_id: Number,
-        name: String,
-      },
-    ],
-    'Alternative version': [
-      {
-        mal_id: Number,
-        name: String,
-      },
-    ],
-    'Side story': [
-      {
-        mal_id: Number,
-        name: String,
-      },
-    ],
+    Sequel: {
+      type: [
+        {
+          mal_id: Number,
+          name: String,
+        },
+      ],
+      required: false,
+    },
+    Prequel: {
+      type: [
+        {
+          mal_id: Number,
+          name: String,
+        },
+      ],
+      required: false,
+    },
+    Other: {
+      type: [
+        {
+          mal_id: Number,
+          name: String,
+        },
+      ],
+      required: false,
+    },
+    'Alternative version': {
+      type: [
+        {
+          mal_id: Number,
+          name: String,
+        },
+      ],
+      required: false,
+    },
+    'Side story': {
+      type: [
+        {
+          mal_id: Number,
+          name: String,
+        },
+      ],
+      required: false,
+    },
+    required: false,
   },
 });
