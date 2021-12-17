@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AnimesService } from './animes.service';
+import { HttpModule } from '@nestjs/axios';
+import { AnimesService } from './services/http.service';
 import { AnimesController } from './animes.controller';
+import { SonicModule } from 'src/sonic/sonic.module';
 
 @Module({
+  imports: [HttpModule, SonicModule],
   controllers: [AnimesController],
   providers: [AnimesService],
 })

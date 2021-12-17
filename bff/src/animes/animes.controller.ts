@@ -7,36 +7,26 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { AnimesService } from './animes.service';
+import { AnimesService } from './services/http.service';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
 
-@Controller('animes')
+@Controller()
 export class AnimesController {
   constructor(private readonly animesService: AnimesService) {}
 
-  @Post()
-  create(@Body() createAnimeDto: CreateAnimeDto) {
-    return this.animesService.create(createAnimeDto);
+  @Get('/id/:id')
+  async findById(@Param('id') id: number) {
+    return this.animesService.findById(id);
   }
 
-  @Get()
-  findAll() {
-    return this.animesService.findAll();
+  @Get('/title/:title')
+  async findByTitle(@Param('title') title: string) {
+    return await this.animesService.findByTitle(title);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.animesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAnimeDto: UpdateAnimeDto) {
-    return this.animesService.update(+id, updateAnimeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.animesService.remove(+id);
+  @Get('/quote')
+  async findQuote() {
+    return await this.animesService.findQuote();
   }
 }
