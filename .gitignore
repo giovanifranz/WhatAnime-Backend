@@ -1,0 +1,8 @@
+.docker
+sonic/store
+bff/.env
+
+# compiled output
+bff/dist
+bff/node_modules
+

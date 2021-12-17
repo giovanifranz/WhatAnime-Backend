@@ -43,7 +43,7 @@
 
 ```bash
 # database
-anime-database
+whatanime
 # collection
 animes
 ```
