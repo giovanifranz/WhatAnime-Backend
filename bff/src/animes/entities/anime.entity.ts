@@ -59,8 +59,8 @@ export class AnimeByTitle {
 }
 
 export class Quote {
+  mal_id?: number;
   anime: string;
   character: string;
   quote: string;
-  id?: number;
 }

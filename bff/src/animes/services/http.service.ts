@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { AnimeByTitle, AnimeById, Quote } from '../entities/anime.entity';
@@ -50,16 +50,7 @@ export class AnimesService {
   async findQuote(): Promise<Observable<Promise<Quote>>> {
     const data = this.httpService.get(animeChan).pipe(
       map(async (response: AxiosResponse<Quote>) => {
-        const animeQuote = await response.data;
-        const { anime } = animeQuote;
-        const animeData = await this.findByTitle(anime).then((data) => {
-          return data[0];
-        });
-        if (!animeData[0]) {
-          return animeQuote;
-        }
-        const newQuote = { id: animeData[0].mal_id, ...animeQuote };
-        return newQuote;
+        return response.data;
       }),
     );
     return data;
