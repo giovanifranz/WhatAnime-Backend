@@ -13,7 +13,7 @@ const animeChan = 'https://animechan.vercel.app/api/random';
 export class AnimesService {
   constructor(private httpService: HttpService) {}
 
-  async findByTitle(title: string): Promise<Observable<Array<AnimeByTitle>>> {
+  findByTitle(title: string): Observable<Array<AnimeByTitle>> {
     const data: Observable<Array<AnimeByTitle>> = this.httpService
       .get(`${jikanAPI}/search/anime?q=${title}`)
       .pipe(
@@ -31,7 +31,7 @@ export class AnimesService {
     return data;
   }
 
-  async findById(id: number): Promise<Observable<AnimeById>> {
+  findById(id: number): Observable<AnimeById> {
     const data = this.httpService.get(`${jikanAPI}/anime/${id}`).pipe(
       map((response: AxiosResponse<AnimeById>) => {
         const result = response.data;
@@ -47,16 +47,16 @@ export class AnimesService {
     return data;
   }
 
-  async findQuote(): Promise<Observable<Promise<Quote>>> {
+  findQuote(): Observable<Quote> {
     const data = this.httpService.get(animeChan).pipe(
-      map(async (response: AxiosResponse<Quote>) => {
+      map((response: AxiosResponse<Quote>) => {
         return response.data;
       }),
     );
     return data;
   }
 
-  async findRandomId() {
+  findRandomId() {
     const date = Math.floor(+new Date() / 1000);
     const myRandomFunctionAnime = date.toString().slice(4, 13).split('');
     const newArray = myRandomFunctionAnime
@@ -68,7 +68,7 @@ export class AnimesService {
     const id = this.httpService
       .get(`${jikanAPI}/top/anime/${myRandomFunctionAnime[0]}/tv`)
       .pipe(
-        map(async (response) => {
+        map((response) => {
           return parseInt(response.data.top[sum].mal_id.toString(), 10);
         }),
       );

@@ -16,22 +16,22 @@ export class AnimesController {
   constructor(private readonly animesService: AnimesService) {}
 
   @Get('/id/:id')
-  async findById(@Param('id') id: number) {
+  findById(@Param('id') id: number) {
     return this.animesService.findById(id);
   }
 
   @Get('/title/:title')
-  async findByTitle(@Param('title') title: string) {
-    return await this.animesService.findByTitle(title);
+  findByTitle(@Param('title') title: string) {
+    return this.animesService.findByTitle(title);
   }
 
   @Get('/quote')
-  async findQuote() {
-    return await this.animesService.findQuote();
+  findQuote() {
+    return this.animesService.findQuote();
   }
 
   @Get('/random')
-  async findRandomId() {
-    return await this.animesService.findRandomId();
+  findRandomId() {
+    return this.animesService.findRandomId();
   }
 }
