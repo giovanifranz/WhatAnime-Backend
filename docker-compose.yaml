@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  app:
+    build: ./bff
+    container_name: app
+    entrypoint: ./.docker/entrypoint.sh
+    ports:
+      - "3333:3333"
+    volumes:
+      - "./bff:/home/node/app"
+    networks:
+      - whatanime
+    depends_on:
+      - sonic
+      - mongo
+
+  sonic:
+    image: valeriansaliou/sonic:v1.3.2
+    container_name: sonic
+    restart: always
+    volumes:
+      - ./sonic/config.cfg:/etc/sonic.cfg
+      - ./sonic/store/:/var/lib/sonic/store/
+    ports:
+      - "1491:1491"
+    networks:
+      - whatanime
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - whatanime
+
+networks:
+  whatanime:
+    driver: bridge
