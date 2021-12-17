@@ -4,7 +4,7 @@ import { AnimesModule } from './animes/animes.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://mongo:27017/anime-database'),
+    MongooseModule.forRoot('mongodb://mongo:27017/whatanime'),
     AnimesModule,
   ],
 })

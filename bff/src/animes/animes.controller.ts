@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { AnimesService } from './services/http.service';
+import { AnimesService } from './animes.service';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 import { UpdateAnimeDto } from './dto/update-anime.dto';
 
@@ -34,4 +34,11 @@ export class AnimesController {
   findRandomId() {
     return this.animesService.findRandomId();
   }
+
+  /*@Post()
+  async create(
+    @Body() createAnimeDto: CreateAnimeDto,
+  ): Promise<CreateAnimeDto> {
+    return this.dbService.create(createAnimeDto);
+  }*/
 }

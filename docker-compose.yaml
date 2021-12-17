@@ -28,14 +28,32 @@ services:
     networks:
       - whatanime
 
-  mongo:
-    image: mongo
+  db:
+    image: mongo:5.0.5
     container_name: mongo
     restart: always
+    volumes:
+      - ./.docker/dbdata:/data/db
+      - ./.docker/mongo:/docker-entrypoint-initdb.d
     ports:
       - 27017:27017
     networks:
       - whatanime
+    environment:
+      - MONGO_INITDB_DATABASE=whatanime
+
+  mongo-express:
+    image: mongo-express:0.54
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    networks:
+      - whatanime
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=db
 
 networks:
   whatanime:

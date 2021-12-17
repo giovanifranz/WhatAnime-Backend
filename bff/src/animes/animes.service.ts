@@ -1,17 +1,23 @@
-import { Injectable } from '@nestjs/common';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { AnimeByTitle, AnimeById, Quote } from '../entities/anime.entity';
+import { AnimeByTitle, AnimeById, Quote } from './entities/anime.entity';
+import { sonicChannelIngest } from 'src/sonic/sonic';
+import { CreateAnimeDto } from './dto/create-anime.dto';
 
 const jikanAPI = 'https://api.jikan.moe/v3';
-const traceMoeAPI = 'https://api.trace.moe/search?url=';
 const animeChan = 'https://animechan.vercel.app/api/random';
 
 @Injectable()
 export class AnimesService {
-  constructor(private httpService: HttpService) {}
+  constructor(
+    private httpService: HttpService,
+    @InjectModel('Anime') private readonly animeModel: Model<AnimeById>,
+  ) {}
 
   findByTitle(title: string): Observable<Array<AnimeByTitle>> {
     const data: Observable<Array<AnimeByTitle>> = this.httpService
@@ -56,7 +62,7 @@ export class AnimesService {
     return data;
   }
 
-  findRandomId() {
+  findRandomId(): Observable<number> {
     const date = Math.floor(+new Date() / 1000);
     const myRandomFunctionAnime = date.toString().slice(4, 13).split('');
     const newArray = myRandomFunctionAnime
@@ -73,5 +79,26 @@ export class AnimesService {
         }),
       );
     return id;
+  }
+
+  async create(anime: CreateAnimeDto): Promise<AnimeById> {
+    const createdAnime = new this.animeModel(anime);
+    const animeSaved = await createdAnime.save();
+
+    if (!animeSaved) {
+      throw new InternalServerErrorException('Problema para salvar anime');
+    }
+
+    await sonicChannelIngest.push(
+      'anime-database',
+      'animes',
+      `${createdAnime._id}`,
+      `${createdAnime.title} ${createdAnime.synopsis}`,
+      {
+        lang: 'eng',
+      },
+    );
+
+    return animeSaved;
   }
 }
