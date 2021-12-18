@@ -94,3 +94,21 @@ export class Anime {
 }
 
 export const AnimeSchema = SchemaFactory.createForClass(Anime);
+
+export class AnimeByTitle {
+  mal_id: number;
+  title: string;
+  image_url: string;
+  score: number;
+  episodes: number;
+  synopsis: string;
+  year: number;
+  start_date: string;
+}
+
+export class Quote {
+  mal_id?: number;
+  anime: string;
+  character: string;
+  quote: string;
+}

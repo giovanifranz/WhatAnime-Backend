@@ -34,7 +34,6 @@ services:
     restart: always
     volumes:
       - ./.docker/dbdata:/data/db
-      - ./.docker/mongo:/docker-entrypoint-initdb.d
     ports:
       - 27017:27017
     networks:

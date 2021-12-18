@@ -5,8 +5,7 @@ import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { AnimeByTitle, AnimeById, Quote } from './types/animes.types';
-import { Anime } from './entities/anime.entity';
+import { Anime, Quote, AnimeByTitle } from './entities/anime.entity';
 import { sonicChannelIngest, sonicChannelSearch } from 'src/sonic/sonic';
 import { CreateAnimeDto } from './dto/create-anime.dto';
 
@@ -17,7 +16,7 @@ const animeChan = 'https://animechan.vercel.app/api/random';
 export class AnimesService {
   constructor(
     private httpService: HttpService,
-    @InjectModel('Anime') private readonly animeModel: Model<AnimeById>,
+    @InjectModel('Anime') private readonly animeModel: Model<Anime>,
   ) {}
 
   findByTitle(title: string): Observable<Array<AnimeByTitle>> {
@@ -38,9 +37,9 @@ export class AnimesService {
     return data;
   }
 
-  findById(id: number): Observable<AnimeById> {
+  findById(id: number): Observable<Anime> {
     const data = this.httpService.get(`${jikanAPI}/anime/${id}`).pipe(
-      map((response: AxiosResponse<AnimeById>) => {
+      map((response: AxiosResponse<Anime>) => {
         const result = response.data;
         const year = new Date(result.aired.from).getFullYear();
         const synopsis = result.synopsis.replace(
