@@ -1,25 +1,20 @@
-import { Model } from 'mongoose';
-import { InjectModel } from '@nestjs/mongoose';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { Anime, Quote, AnimeByTitle } from './entities/anime.entity';
-import { sonicChannelIngest, sonicChannelSearch } from 'src/sonic/sonic';
-import { CreateAnimeDto } from './dto/create-anime.dto';
+import { Anime, Quote, AnimeByTitle } from '../entities/anime.entity';
 
 const jikanAPI = 'https://api.jikan.moe/v3';
 const animeChan = 'https://animechan.vercel.app/api/random';
 
 @Injectable()
-export class AnimesService {
+export class ExternalApiService {
   constructor(
     private httpService: HttpService,
-    @InjectModel('Anime') private readonly animeModel: Model<Anime>,
-  ) {}
+  ) { }
 
-  findByTitle(title: string): Observable<Array<AnimeByTitle>> {
+    getAnimeByTitleOnJikan(title: string): Observable<Array<AnimeByTitle>> {
     const data: Observable<Array<AnimeByTitle>> = this.httpService
       .get(`${jikanAPI}/search/anime?q=${title}`)
       .pipe(
@@ -33,11 +28,10 @@ export class AnimesService {
           });
         }),
       );
-
     return data;
   }
 
-  findById(id: number): Observable<Anime> {
+   getAnimeByIdOnJikan(id: number): Observable<Anime> {
     const data = this.httpService.get(`${jikanAPI}/anime/${id}`).pipe(
       map((response: AxiosResponse<Anime>) => {
         const result = response.data;
@@ -53,16 +47,7 @@ export class AnimesService {
     return data;
   }
 
-  findQuote(): Observable<Quote> {
-    const data = this.httpService.get(animeChan).pipe(
-      map((response: AxiosResponse<Quote>) => {
-        return response.data;
-      }),
-    );
-    return data;
-  }
-
-  findRandomId(): Observable<number> {
+  getRandomId(): Observable<number> {
     const date = Math.floor(+new Date() / 1000);
     const myRandomFunctionAnime = date.toString().slice(4, 13).split('');
     const newArray = myRandomFunctionAnime
@@ -81,39 +66,12 @@ export class AnimesService {
     return id;
   }
 
-  async create(anime: CreateAnimeDto): Promise<Anime> {
-    const createdAnime = new this.animeModel(anime);
-    const animeSaved = await createdAnime.save();
-
-    if (!animeSaved) {
-      throw new InternalServerErrorException('Problema para salvar anime');
-    }
-
-    await sonicChannelIngest.push(
-      'anime-database',
-      'animes',
-      `${createdAnime._id}`,
-      `${createdAnime.title} ${createdAnime.synopsis}`,
-      {
-        lang: 'eng',
-      },
+  getQuote(): Observable<Quote> {
+    const data = this.httpService.get(animeChan).pipe(
+      map((response: AxiosResponse<Quote>) => {
+        return response.data;
+      }),
     );
-
-    return animeSaved;
-  }
-
-  async getAnimeForSonic(param: string) {
-    const result = await sonicChannelSearch.query(
-      'anime-database',
-      'animes',
-      param,
-      { lang: 'eng' },
-    );
-    const jsonResult = [];
-
-    for (let index = 0; index < result.length; index++) {
-      jsonResult.push(await this.animeModel.findById(result[index]).exec());
-    }
-    return jsonResult;
+    return data;
   }
 }
