@@ -5,6 +5,8 @@ export type AnimeDocument = Anime & Document;
 
 @Schema()
 export class Anime {
+  @Prop() 
+  mal_id: number;
   @Prop()
   image_url: string;
   @Prop()
