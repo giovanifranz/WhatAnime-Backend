@@ -4,7 +4,7 @@ import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { RedisCacheService } from 'src/redis';
-import { Anime, Quote, AnimeByTitle, Ranking } from '../entities/anime.entity';
+import { Anime, Quote, AnimeByTitle, Ranking, Top } from '../entities/anime.entity';
 
 const jikanAPI = 'https://api.jikan.moe/v3';
 const animeChan = 'https://animechan.vercel.app/api/random';
@@ -14,9 +14,9 @@ export class ExternalApiService {
   constructor(
     private redisCacheService: RedisCacheService,
     private httpService: HttpService,
-  ) {}
+  ) { }
 
-  getAnimeByTitleOnJikan(title: string) {
+  getAnimeByTitleOnJikan(title: string): Observable<Array<AnimeByTitle>> {
     const data: Observable<Array<AnimeByTitle>> = this.httpService
       .get(`${jikanAPI}/search/anime?q=${title}`)
       .pipe(
@@ -78,7 +78,7 @@ export class ExternalApiService {
   async getTopAiring() {
     const cached = await this.redisCacheService.get('airing');
     if (cached) {
-      return cached;
+      return cached as Array<Top>;
     }
 
     const data = this.httpService.get(`${jikanAPI}/top/anime/1/airing`).pipe(
@@ -93,7 +93,7 @@ export class ExternalApiService {
   async getTopPopular() {
     const cached = await this.redisCacheService.get('popular');
     if (cached) {
-      return cached;
+      return cached as Array<Top>;
     }
 
     const data = this.httpService

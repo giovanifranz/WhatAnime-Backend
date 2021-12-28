@@ -11,13 +11,13 @@ export class AnimesController {
   ) {}
 
   @Get('/title/:title')
-  getAnimeByTitle(@Param('title') title: string) {
-    return this.animesService.getAnimeByTitle(title);
+  async getAnimeByTitle(@Param('title') title: string) {
+    return await this.animesService.getAnimeByTitle(title);
   }
 
   @Get('/random')
-  getRandomAnime() {
-    return this.animesService.getRandomAnime();
+  async getRandomAnime() {
+    return await this.animesService.getRandomAnime();
   }
 
   @Get('/sonic?')

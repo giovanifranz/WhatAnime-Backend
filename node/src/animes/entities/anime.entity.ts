@@ -116,9 +116,11 @@ export class Quote {
 }
 
 export class Ranking {
-  top: {
-    mal_id: number;
-    title: string;
-    rank: number;
-  }[];
+  top: Top[];
+}
+
+export class Top {
+  mal_id: number;
+  title: string;
+  rank: number;
 }
