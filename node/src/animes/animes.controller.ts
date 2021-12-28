@@ -20,23 +20,22 @@ export class AnimesController {
     return this.animesService.getRandomAnime();
   }
 
-  @Get('sonic?')
+  @Get('/sonic?')
   async getAnimeForSonic(@Query('param') reqParam: string) {
-    console.log(reqParam);
     return await this.sonicService.getAnimeForSonic(reqParam);
   }
 
-  @Get('suggest?')
+  @Get('/suggest?') 
   async getSuggestForSonic(@Query('param') reqParam: string) {
     return await this.sonicService.getSuggestForSonic(reqParam);
   }
 
-  @Get('airing')
+  @Get('/airing')
   async getTopAiring() {
     return await this.externalApiService.getTopAiring();
   }
 
-  @Get('popular')
+  @Get('/popular')
   async getTopPopular() {
     return await this.externalApiService.getTopPopular();
   }
