@@ -4,11 +4,14 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
-import { AnimesService } from './services/animes.service';
+import { AnimesService, SonicService } from './services';
 
 @Controller()
 export class AnimesController {
-  constructor(private readonly animesService: AnimesService) { }
+  constructor(
+    private readonly animesService: AnimesService,
+    private readonly sonicService: SonicService
+  ) { }
 
   @Get('/title/:title')
   getAnimeByTitle(@Param('title') title: string) {
@@ -23,11 +26,11 @@ export class AnimesController {
   @Get('sonic?')
   async getAnimeForSonic(@Query('param') reqParam: string) {
     console.log(reqParam);
-    return await this.animesService.getAnimeForSonic(reqParam);
+    return await this.sonicService.getAnimeForSonic(reqParam);
   }
 
-  @Get('suggest?') 
+  @Get('suggest?')
   async getSuggestForSonic(@Query('param') reqParam: string) {
-    return await this.animesService.getSuggestForSonic(reqParam);
+    return await this.sonicService.getSuggestForSonic(reqParam);
   }
 }

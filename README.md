@@ -10,7 +10,6 @@
   <p align="center">Salvar em banco de dados NoSQL (MongoDB) dados obtidos</p>  
   <p align="center">Pesquisar dentro da base de dados utilizando o Sonic palavras específicas dentro das sinopses e títulos obtidos</p>
   <p align="center">Sugerir termos de pesquisa baseado no histórico de utilização da API</p>
-  <p align="center">Funcionalidades de CRUD inseridas e funcionando tanto em REST quanto Graphql</p>
  
 <p align="center"> 
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>

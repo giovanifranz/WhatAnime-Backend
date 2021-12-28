@@ -7,6 +7,7 @@ import { SonicModule } from 'src/sonic/sonic.module';
 import { AnimeSchema } from './entities/anime.entity';
 import { DatabaseService } from './services/database.service';
 import { ExternalApiService } from './services/externalApi.service';
+import { SonicService } from './services/sonic.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { ExternalApiService } from './services/externalApi.service';
     MongooseModule.forFeature([{ name: 'Anime', schema: AnimeSchema }]),
   ],
   controllers: [AnimesController],
-  providers: [AnimesService, DatabaseService, ExternalApiService],
+  providers: [AnimesService, DatabaseService, ExternalApiService, SonicService],
 })
-export class AnimesModule {}
+export class AnimesModule { }
