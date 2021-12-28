@@ -9,15 +9,24 @@ import {
   Query,
 } from '@nestjs/common';
 import { AnimesService } from './services/animes.service';
-import { CreateAnimeDto } from './dto/create-anime.dto';
-import { UpdateAnimeDto } from './dto/update-anime.dto';
 
 @Controller()
 export class AnimesController {
-  constructor(private readonly animesService: AnimesService) {}
+  constructor(private readonly animesService: AnimesService) { }
 
   @Get('/title/:title')
   getAnimeByTitle(@Param('title') title: string) {
     return this.animesService.getAnimeByTitle(title);
+  }
+
+  @Get('/random')
+  getRandomAnime() {
+    return this.animesService.getRandomAnime();
+  }
+
+  @Get('sonic?')
+  async getAnimeForSonic(@Query('param') reqParam: string) {
+    console.log(reqParam);
+    return await this.animesService.getAnimeForSonic(reqParam);
   }
 }

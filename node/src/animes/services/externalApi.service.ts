@@ -14,7 +14,7 @@ export class ExternalApiService {
     private httpService: HttpService,
   ) { }
 
-    getAnimeByTitleOnJikan(title: string): Observable<Array<AnimeByTitle>> {
+  getAnimeByTitleOnJikan(title: string) {
     const data: Observable<Array<AnimeByTitle>> = this.httpService
       .get(`${jikanAPI}/search/anime?q=${title}`)
       .pipe(
@@ -31,7 +31,7 @@ export class ExternalApiService {
     return data;
   }
 
-   getAnimeByIdOnJikan(id: number): Observable<Anime> {
+  getAnimeByIdOnJikan(id: number) {
     const data = this.httpService.get(`${jikanAPI}/anime/${id}`).pipe(
       map((response: AxiosResponse<Anime>) => {
         const result = response.data;
@@ -47,7 +47,7 @@ export class ExternalApiService {
     return data;
   }
 
-  getRandomId(): Observable<number> {
+  getRandomId() {
     const date = Math.floor(+new Date() / 1000);
     const myRandomFunctionAnime = date.toString().slice(4, 13).split('');
     const newArray = myRandomFunctionAnime
@@ -66,7 +66,7 @@ export class ExternalApiService {
     return id;
   }
 
-  getQuote(): Observable<Quote> {
+  getQuote() {
     const data = this.httpService.get(animeChan).pipe(
       map((response: AxiosResponse<Quote>) => {
         return response.data;

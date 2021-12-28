@@ -17,8 +17,8 @@ export class AnimesService {
 
 
   async getAnimeByTitle(title: string) {
-    const results = await this.getAnimeForSonic(title)
-    if (results.length < 1) {
+    const animeResults = await this.getAnimeForSonic(title)
+    if (animeResults.length < 1) {
       const anime = this.externalService.getAnimeByTitleOnJikan(title).pipe(
         map(response => response[0].mal_id),
         map(id => this.externalService.getAnimeByIdOnJikan(id)),
@@ -28,8 +28,20 @@ export class AnimesService {
       )
       return anime
     } else {
-      return results
+      const anime = animeResults[0]
+      return anime
     }
+  }
+
+  getRandomAnime() {
+    const randomAnime = this.externalService.getRandomId().pipe(
+      map(id => this.externalService.getAnimeByIdOnJikan(id)),
+      concatAll(),
+      map(anime => this.databaseService.createInDatabases(anime)),
+      concatAll()
+    )
+
+    return randomAnime
   }
 
   async getAnimeForSonic(param: string) {
@@ -39,12 +51,10 @@ export class AnimesService {
       param,
       { lang: 'eng' },
     );
-    const animeResults = [];
-
+    const animeResults: Array<Anime> = [];
     for (let index = 0; index < result.length; index++) {
       animeResults.push(await this.animeModel.findById(result[index]).exec());
     }
     return animeResults;
   }
-
 }
