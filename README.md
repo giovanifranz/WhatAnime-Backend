@@ -6,17 +6,13 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">API capaz de pesquisar em APIs externas dados referentes a Animes.</p>
-  <p align="center">Salvar em banco de dados NoSQL (MongoDB) dados obtidos</p>  
-  <p align="center">Pesquisar dentro da base de dados utilizando o Sonic palavras específicas dentro das sinopses e títulos obtidos</p>
-  <p align="center">Sugerir termos de pesquisa baseado no histórico de utilização da API</p>
+  <p align="center">Verifica se existe Anime no cache da aplicação (Redis)</p>
+  <p align="center">Se não houver faz a pesquisa no banco de dados em alta velocidade utilizando o Sonic atráves de palavras indexadas na sinopse ou títulos obtidos</p>
+  <p align="center">Caso necessário busca externamente os dados na API do Jikan e armazena somente o necessário no bando de dados NoSQL</p>
+  <p align="center">Faz a sugestão de termos de pesquisa baseado no histórico de utilização da API através do Sonic</p>
+  <p align="center">Swagger implementado na rota /api</p>
  
 <p align="center"> 
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-  <a href="https://www.paypal.com/donate?hosted_button_id=KJ9TK628E7N42" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-  
-</p>
 
 ## Description
 
@@ -25,14 +21,14 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.    
 [Sonic](https://github.com/valeriansaliou/sonic) Sonic is a fast, lightweight and schema-less search backend. It ingests search texts and identifier tuples that can then be queried against in a microsecond's time.   
 [Mongoose](https://github.com/Automattic/mongoose) Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. Mongoose supports both promises and callbacks.    
-[Typescript](https://github.com/microsoft/TypeScript) Superset of JavaScript
-
+[Typescript](https://github.com/microsoft/TypeScript) Superset of JavaScript  
+[Redis](https://redis.io) Redis is an open source (BSD licensed), in-memory data structure store, used as a database, cache, and message broker.  
+[Swagger](https://swagger.io) Simplify API development for users, teams, and enterprises with our open source and professional toolset.  
+[Docker](https://www.docker.com) Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers   
 ### APIs
 
 [Jikan](https://github.com/jikan-me/jikan) Unofficial MyAnimeList.net PHP API  
-[Trace.moe-Api](https://github.com/soruly/trace.moe-api) Anime Scene Search Engine  
 [Animechan](https://github.com/rocktimsaikia/anime-chan) A free restful API serving quality anime quotes  
-[Anilist](https://github.com/AniList/ApiV2-GraphQL-Docs) The AniList GraphQL Api provides quick and powerful access to over 500k anime and manga entries, including character, staff, and live airing data. The AniList & AniChart websites themselves run on the Api, so everything you can do on the sites, you can do via the Api.  
 
 ## Requisites 
 
