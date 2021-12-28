@@ -7,7 +7,7 @@
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
   <p align="center">Verifica se existe Anime no cache da aplicação (Redis)</p>
-  <p align="center">Se não houver faz a pesquisa no banco de dados em alta velocidade utilizando o Sonic atráves de palavras indexadas na sinopse ou títulos obtidos</p>
+  <p align="center">Se não houver faz a pesquisa no banco de dados em alta velocidade utilizando o Sonic atráves de palavras chaves indexadas no título</p>
   <p align="center">Caso necessário busca externamente os dados na API do Jikan e armazena somente o necessário no bando de dados NoSQL</p>
   <p align="center">Faz a sugestão de termos de pesquisa baseado no histórico de utilização da API através do Sonic</p>
   <p align="center">Swagger implementado na rota /api</p>

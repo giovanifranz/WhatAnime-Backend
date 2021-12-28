@@ -9,7 +9,7 @@ import { CreateAnimeDto } from '../dto/create-anime.dto';
 export class DatabaseService {
   constructor(
     @InjectModel('Anime') private readonly animeModel: Model<Anime>,
-  ) {}
+  ) { }
 
   async createInDatabases(anime: CreateAnimeDto): Promise<Anime> {
     const createdAnime = new this.animeModel(anime);
@@ -23,7 +23,7 @@ export class DatabaseService {
       'anime-database',
       'animes',
       `${createdAnime._id}`,
-      `${createdAnime.title} ${createdAnime.synopsis}`,
+      `${createdAnime.title}`,
       {
         lang: 'eng',
       },
