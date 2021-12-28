@@ -1,11 +1,7 @@
 import {
   Controller,
   Get,
-  Post,
-  Body,
-  Patch,
   Param,
-  Delete,
   Query,
 } from '@nestjs/common';
 import { AnimesService } from './services/animes.service';
@@ -28,5 +24,10 @@ export class AnimesController {
   async getAnimeForSonic(@Query('param') reqParam: string) {
     console.log(reqParam);
     return await this.animesService.getAnimeForSonic(reqParam);
+  }
+
+  @Get('suggest?') 
+  async getSuggestForSonic(@Query('param') reqParam: string) {
+    return await this.animesService.getSuggestForSonic(reqParam);
   }
 }

@@ -57,4 +57,15 @@ export class AnimesService {
     }
     return animeResults;
   }
+
+  async getSuggestForSonic(param: string) {
+    const results = await sonicChannelSearch.suggest(
+      'anime-database',
+      'animes',
+      param,
+      { limit: 5 },
+    );
+    const jsonResult = JSON.stringify(Object.assign({}, results));
+    return jsonResult;
+  }
 }
