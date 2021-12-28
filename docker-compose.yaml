@@ -15,6 +15,7 @@ services:
     depends_on:
       - sonic
       - db
+      - redis
 
   sonic:
     image: valeriansaliou/sonic:v1.3.2
@@ -47,6 +48,15 @@ services:
       - "8081:8081"
     depends_on:
       - db
+    networks:
+      - network-whatanime
+
+  redis:
+    image: redis:6.2.6
+    container_name: redis
+    restart: always
+    ports: 
+      - "6379:6379"
     networks:
       - network-whatanime
 
