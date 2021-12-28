@@ -4,7 +4,8 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
-import { AnimesService, SonicService } from './services';
+import { AnimesService } from './services';
+import { SonicService } from 'src/sonic';
 
 @Controller()
 export class AnimesController {

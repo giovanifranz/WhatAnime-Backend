@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { Anime } from 'src/animes/entities/anime.entity'
-import { sonicChannelSearch } from 'src/sonic/sonic';
+import { sonicChannelSearch } from './sonic';
 
 @Injectable()
 export class SonicService {

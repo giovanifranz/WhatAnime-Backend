@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { tap, map, concatAll } from 'rxjs/operators';
-import { ExternalApiService, DatabaseService, SonicService } from './';
-import { RedisCacheService } from 'src/redis/redis.service';
+import { ExternalApiService, DatabaseService } from './';
+import { SonicService } from 'src/sonic';
+import { RedisCacheService } from 'src/redis';
 
 @Injectable()
 export class AnimesService {

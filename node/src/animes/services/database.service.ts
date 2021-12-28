@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Anime,  } from '../entities/anime.entity';
-import { sonicChannelIngest } from 'src/sonic/sonic';
+import { sonicChannelIngest } from 'src/sonic';
 import { CreateAnimeDto } from '../dto/create-anime.dto';
 
 @Injectable()
