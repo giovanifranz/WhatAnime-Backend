@@ -3,9 +3,7 @@ import { Cache } from 'cache-manager';
 
 @Injectable()
 export class RedisCacheService {
-  constructor(
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
-  ) { }
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   public async get(key: string) {
     return await this.cacheManager.get(key);

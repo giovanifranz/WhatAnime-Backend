@@ -1,7 +1,7 @@
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { Anime,  } from '../entities/anime.entity';
+import { Anime } from '../entities/anime.entity';
 import { sonicChannelIngest } from 'src/sonic';
 import { CreateAnimeDto } from '../dto/create-anime.dto';
 
@@ -9,7 +9,7 @@ import { CreateAnimeDto } from '../dto/create-anime.dto';
 export class DatabaseService {
   constructor(
     @InjectModel('Anime') private readonly animeModel: Model<Anime>,
-  ) { }
+  ) {}
 
   async createInDatabases(anime: CreateAnimeDto): Promise<Anime> {
     const createdAnime = new this.animeModel(anime);

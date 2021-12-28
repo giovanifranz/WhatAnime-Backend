@@ -4,7 +4,7 @@ import { HttpModule } from '@nestjs/axios';
 import { RedisCacheModule } from 'src/redis';
 import { SonicModule, SonicService } from 'src/sonic';
 import { AnimesService } from './services/animes.service';
-import { DatabaseService, ExternalApiService } from './services'
+import { DatabaseService, ExternalApiService } from './services';
 import { AnimesController } from './animes.controller';
 import { AnimeSchema } from './entities/anime.entity';
 
@@ -18,4 +18,4 @@ import { AnimeSchema } from './entities/anime.entity';
   controllers: [AnimesController],
   providers: [AnimesService, DatabaseService, ExternalApiService, SonicService],
 })
-export class AnimesModule { }
+export class AnimesModule {}

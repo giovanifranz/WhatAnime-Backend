@@ -5,4 +5,4 @@ import { sonicProviders } from './sonic.providers';
   providers: [...sonicProviders],
   exports: [...sonicProviders],
 })
-export class SonicModule { }
+export class SonicModule {}

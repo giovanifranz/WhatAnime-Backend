@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { Anime, Quote, AnimeByTitle } from '../entities/anime.entity';
+import { RedisCacheService } from 'src/redis';
+import { Anime, Quote, AnimeByTitle, Ranking } from '../entities/anime.entity';
 
 const jikanAPI = 'https://api.jikan.moe/v3';
 const animeChan = 'https://animechan.vercel.app/api/random';
@@ -11,8 +12,9 @@ const animeChan = 'https://animechan.vercel.app/api/random';
 @Injectable()
 export class ExternalApiService {
   constructor(
+    private redisCacheService: RedisCacheService,
     private httpService: HttpService,
-  ) { }
+  ) {}
 
   getAnimeByTitleOnJikan(title: string) {
     const data: Observable<Array<AnimeByTitle>> = this.httpService
@@ -59,19 +61,51 @@ export class ExternalApiService {
     const id = this.httpService
       .get(`${jikanAPI}/top/anime/${myRandomFunctionAnime[0]}/tv`)
       .pipe(
-        map((response) => {
-          return parseInt(response.data.top[sum].mal_id.toString(), 10);
-        }),
+        map((response) =>
+          parseInt(response.data.top[sum].mal_id.toString(), 10),
+        ),
       );
     return id;
   }
 
   getQuote() {
-    const data = this.httpService.get(animeChan).pipe(
-      map((response: AxiosResponse<Quote>) => {
-        return response.data;
-      }),
+    const data = this.httpService
+      .get(animeChan)
+      .pipe(map((response: AxiosResponse<Quote>) => response.data));
+    return data;
+  }
+
+  async getTopAiring() {
+    const cached = await this.redisCacheService.get('airing');
+    if (cached) {
+      return cached;
+    }
+
+    const data = this.httpService.get(`${jikanAPI}/top/anime/1/airing`).pipe(
+      map((response: AxiosResponse<Ranking>) => response.data.top.slice(0, 5)),
+      tap((ranking) =>
+        this.redisCacheService.set('airing', ranking, 60 * 60 * 24),
+      ),
     );
+    return data;
+  }
+
+  async getTopPopular() {
+    const cached = await this.redisCacheService.get('popular');
+    if (cached) {
+      return cached;
+    }
+
+    const data = this.httpService
+      .get(`${jikanAPI}/top/anime/1/bypopularity`)
+      .pipe(
+        map((response: AxiosResponse<Ranking>) =>
+          response.data.top.slice(0, 5),
+        ),
+        tap((ranking) =>
+          this.redisCacheService.set('popular', ranking, 60 * 60 * 24),
+        ),
+      );
     return data;
   }
 }

@@ -5,7 +5,7 @@ export type AnimeDocument = Anime & Document;
 
 @Schema()
 export class Anime {
-  @Prop() 
+  @Prop()
   mal_id: number;
   @Prop()
   image_url: string;
@@ -113,4 +113,12 @@ export class Quote {
   anime: string;
   character: string;
   quote: string;
+}
+
+export class Ranking {
+  top: {
+    mal_id: number;
+    title: string;
+    rank: number;
+  }[];
 }
