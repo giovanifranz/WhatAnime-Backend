@@ -1,8 +1,8 @@
-FROM node:16.13.1
+FROM node:alpine3.14
 
 WORKDIR /home/node/app
 
-RUN apt-get update && apt-get install -y wget
+RUN apk add --no-cache wget
 
 ENV DOCKERIZE_VERSION v0.6.1
 
@@ -14,4 +14,4 @@ RUN npm install -g @nestjs/cli@8.0.0
 
 USER node
 
-EXPOSE 3333
+EXPOSE 5000

@@ -1,9 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
-if [ ! -f '.env']; then
-    cp .env.example .env
-fi
+worker=0
+
+# SIGTERM-handler
+term_handler() {
+  if [ "$worker" -ne 0 ]; then
+    kill -SIGTERM "$worker"
+    wait "$worker"
+  fi
+  exit 143; # 128 + 15 -- SIGTERM
+}
+
+trap term_handler TERM
 
 npm install
+npm run build
 
-npm run start:dev
+node dist/main.js
+worker="$!"

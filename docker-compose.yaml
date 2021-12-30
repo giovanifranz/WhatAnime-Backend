@@ -2,12 +2,12 @@ version: '3'
 
 services:
 
-  app:
+  web:
     build: ./node
-    container_name: app
+    container_name: web
     entrypoint: dockerize -wait tcp://sonic:1491 -timeout 30s ./entrypoint.sh
     ports:
-      - "3333:3333"
+      - "5000:5000"
     volumes:
       - "./node:/home/node/app"
     networks:
@@ -29,9 +29,11 @@ services:
       - network-whatanime
 
   redis:
-    image: redis:6.2.6
+    image: redis:alpine
     container_name: redis
     restart: always
+    ports:
+      - "6379:6379"
     networks:
       - network-whatanime
 
