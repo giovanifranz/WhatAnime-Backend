@@ -14,6 +14,7 @@ services:
       - network-whatanime
     depends_on:
       - sonic
+      # - db
       - redis
 
   sonic:
@@ -28,11 +29,33 @@ services:
     networks:
       - network-whatanime
 
+  db:
+    image: mongo:5.0.5
+    container_name: mongo
+    restart: always
+    volumes:
+      - ./.docker/dbdata:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - network-whatanime
+
+  mongo-express:
+    image: mongo-express:0.54
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    networks:
+      - network-whatanime
+
   redis:
     image: redis:6.2.6
     container_name: redis
     restart: always
-    ports: 
+    ports:
       - "6379:6379"
     networks:
       - network-whatanime

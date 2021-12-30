@@ -4,7 +4,13 @@ import { map, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { RedisCacheService } from 'src/redis';
-import { Anime, Quote, AnimeByTitle, Ranking, Top } from '../entities/anime.entity';
+import {
+  Anime,
+  Quote,
+  AnimeByTitle,
+  Ranking,
+  Top,
+} from '../entities/anime.entity';
 
 const jikanAPI = 'https://api.jikan.moe/v3';
 const animeChan = 'https://animechan.vercel.app/api/random';
@@ -14,7 +20,7 @@ export class ExternalApiService {
   constructor(
     private redisCacheService: RedisCacheService,
     private httpService: HttpService,
-  ) { }
+  ) {}
 
   getAnimeByTitleOnJikan(title: string): Observable<Array<AnimeByTitle>> {
     const data: Observable<Array<AnimeByTitle>> = this.httpService

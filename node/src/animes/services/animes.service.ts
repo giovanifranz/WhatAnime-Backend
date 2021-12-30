@@ -12,7 +12,7 @@ export class AnimesService {
     private externalService: ExternalApiService,
     private databaseService: DatabaseService,
     private sonicService: SonicService,
-  ) { }
+  ) {}
 
   async getAnimeByTitle(title: string) {
     const cached = await this.redisCacheService.get(title);
@@ -23,23 +23,23 @@ export class AnimesService {
     const animeResults = await this.sonicService.getAnimeForSonic(title);
     if (animeResults.length < 1) {
       return this.externalService.getAnimeByTitleOnJikan(title).pipe(
-
-        mergeMap(response => {
-          return response.slice(0, 5)
-            .map(anime => {
-              return this.externalService.getAnimeByIdOnJikan(anime.mal_id).pipe(
-                map(async anime => {
-                  const newAnime = await this.databaseService.createInDatabases(anime)
-                  this.redisCacheService.set(title, newAnime, 60 * 60 * 24)
-                  return newAnime
-                }),
-                concatAll()
-              )
-            })
+        mergeMap((response) => {
+          return response.slice(0, 5).map((anime) => {
+            return this.externalService.getAnimeByIdOnJikan(anime.mal_id).pipe(
+              map(async (anime) => {
+                const newAnime = await this.databaseService.createInDatabases(
+                  anime,
+                );
+                this.redisCacheService.set(title, newAnime, 60 * 60 * 24);
+                return newAnime;
+              }),
+              concatAll(),
+            );
+          });
         }),
         concatAll(),
-        toArray()
-      )
+        toArray(),
+      );
     } else {
       await this.redisCacheService.set(title, animeResults, 60 * 60 * 24);
       return animeResults;
@@ -59,7 +59,7 @@ export class AnimesService {
       concatAll(),
       tap((anime) => this.redisCacheService.set('random', anime, 36)),
     );
-    
+
     return randomAnime;
   }
 }

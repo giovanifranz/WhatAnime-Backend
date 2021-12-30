@@ -25,7 +25,7 @@ export class AnimesController {
     return await this.sonicService.getAnimeForSonic(reqParam);
   }
 
-  @Get('/suggest?') 
+  @Get('/suggest?')
   async getSuggestForSonic(@Query('param') reqParam: string) {
     return await this.sonicService.getSuggestForSonic(reqParam);
   }
