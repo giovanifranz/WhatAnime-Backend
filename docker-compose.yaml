@@ -15,6 +15,8 @@ services:
     depends_on:
       - sonic
       - redis
+    environment:
+      MONGO_DSN: ${MONGO_DSN}
 
   sonic:
     image: valeriansaliou/sonic:v1.3.2
@@ -23,8 +25,6 @@ services:
     volumes:
       - ./sonic/config.cfg:/etc/sonic.cfg
       - ./sonic/store/:/var/lib/sonic/store/
-    ports:
-      - "1491:1491"
     networks:
       - network-whatanime
 
@@ -32,8 +32,6 @@ services:
     image: redis:6.2.6
     container_name: redis
     restart: always
-    ports: 
-      - "6379:6379"
     networks:
       - network-whatanime
 
