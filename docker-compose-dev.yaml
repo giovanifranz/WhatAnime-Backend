@@ -5,7 +5,7 @@ services:
   app:
     build: ./node
     container_name: app
-    entrypoint: dockerize -wait tcp://sonic:1491 -timeout 30s ./entrypoint.sh
+    entrypoint: dockerize -wait tcp://mongo:27017 -timeout 30s ./entrypoint.sh
     ports:
       - "3333:3333"
     volumes:
@@ -14,7 +14,7 @@ services:
       - network-whatanime
     depends_on:
       - sonic
-      # - db
+      - db
       - redis
 
   sonic:
