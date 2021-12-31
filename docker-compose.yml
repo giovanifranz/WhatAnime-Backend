@@ -3,13 +3,13 @@ version: '3.8'
 services:
 
   web:
-    build: ./node
+    build: .
     container_name: web
     entrypoint: dockerize -wait tcp://sonic:1491 -timeout 30s node dist/main.js
     ports:
       - "5000:5000"
     volumes:
-      - "./node:/home/node/app"
+      - ".:/home/node/app"
     networks:
       - network-whatanime
     depends_on:
