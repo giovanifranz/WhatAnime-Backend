@@ -5,7 +5,7 @@ services:
   web:
     build: ./node
     container_name: web
-    entrypoint: dockerize -wait tcp://sonic:1491 -timeout 30s ./entrypoint.sh
+    entrypoint: dockerize -wait tcp://sonic:1491 -timeout 30s node dist/main.js
     ports:
       - "5000:5000"
     volumes:
