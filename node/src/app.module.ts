@@ -1,18 +1,13 @@
-import { Module, CacheModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AnimesModule } from './animes/animes.module';
-import type { ClientOpts as RedisClientOpts } from 'redis';
-import * as redisStore from 'cache-manager-redis-store';
+import { RedisCacheModule } from './redis';
 
 @Module({
   imports: [
-    CacheModule.register<RedisClientOpts>({
-      store: redisStore,
-      host: 'redis',
-      port: 6379,
-    }),
     ConfigModule.forRoot(),
+    RedisCacheModule,
     MongooseModule.forRoot(process.env.MONGO_DSN, {
       useNewUrlParser: true,
     }),
