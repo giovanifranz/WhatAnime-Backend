@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  web:
+    build: ./node
+    container_name: web
+    entrypoint: dockerize -wait tcp://sonic:1491 -timeout 30s node dist/main.js
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./node:/home/node/app"
+    networks:
+      - network-whatanime
+    depends_on:
+      - sonic
+      - redis
+    environment:
+      MONGO_DSN: ${MONGO_DSN}
+
+  sonic:
+    image: valeriansaliou/sonic:v1.3.2
+    container_name: sonic
+    restart: always
+    volumes:
+      - ./sonic/config.cfg:/etc/sonic.cfg
+      - ./sonic/store/:/var/lib/sonic/store/
+    networks:
+      - network-whatanime
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - network-whatanime
+
+networks:
+  network-whatanime:
+    driver: bridge
