@@ -1,1 +1,0 @@
-{"version":3,"file":"sonic.module.js","sourceRoot":"","sources":["../../src/sonic/sonic.module.ts"],"names":[],"mappings":";;;;;;;;;AAAA,2CAAwC;AACxC,uDAAmD;AAMnD,IAAa,WAAW,GAAxB,MAAa,WAAW;CAAG,CAAA;AAAd,WAAW;IAJvB,IAAA,eAAM,EAAC;QACN,SAAS,EAAE,CAAC,GAAG,gCAAc,CAAC;QAC9B,OAAO,EAAE,CAAC,GAAG,gCAAc,CAAC;KAC7B,CAAC;GACW,WAAW,CAAG;AAAd,kCAAW"}

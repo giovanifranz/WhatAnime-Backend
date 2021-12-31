@@ -3,5 +3,5 @@ sonic/store
 .env
 
 # compiled output
-dist
-node_modules
+node/dist
+node/node_modules
