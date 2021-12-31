@@ -5,7 +5,7 @@ services:
   web:
     build: ./node
     container_name: web
-    entrypoint: dockerize -wait tcp://sonic:1491 -timeout 30s node dist/main.js
+    entrypoint: dockerize -wait tcp://mongo:27017 -timeout 30s node dist/main.js
     ports:
       - "5000:5000"
     volumes:
@@ -13,6 +13,7 @@ services:
     networks:
       - network-whatanime
     depends_on:
+      - db
       - sonic
       - redis
     environment:
@@ -27,6 +28,28 @@ services:
       - ./sonic/store/:/var/lib/sonic/store/
     networks:
       - network-whatanime
+
+  db:
+    image: mongo:4.4.11
+    container_name: mongo
+    restart: always
+    volumes:
+      - ./.docker/dbdata:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - network-whatanime
+
+  mongo-express:
+    image: mongo-express:0.54
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    networks:
+      - network-whatanime    
 
   redis:
     image: redis:alpine
