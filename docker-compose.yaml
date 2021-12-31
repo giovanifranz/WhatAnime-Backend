@@ -2,22 +2,22 @@ version: '3'
 
 services:
 
-  web:
+  app:
     build: ./node
-    container_name: web
+    container_name: app
     entrypoint: dockerize -wait tcp://mongo:27017 -timeout 30s node dist/main.js
     ports:
       - "5000:5000"
     volumes:
       - "./node:/home/node/app"
     networks:
-      - network-whatanime
+      - whatanime
     depends_on:
       - db
       - sonic
       - redis
     environment:
-      MONGO_DSN: ${MONGO_DSN}
+      - MONGO_DSN=${MONGO_DSN}
 
   sonic:
     image: valeriansaliou/sonic:v1.3.2
@@ -27,7 +27,7 @@ services:
       - ./sonic/config.cfg:/etc/sonic.cfg
       - ./sonic/store/:/var/lib/sonic/store/
     networks:
-      - network-whatanime
+      - whatanime
 
   db:
     image: mongo:4.4.11
@@ -38,7 +38,7 @@ services:
     ports:
       - 27017:27017
     networks:
-      - network-whatanime
+      - whatanime
 
   mongo-express:
     image: mongo-express:0.54
@@ -49,7 +49,7 @@ services:
     depends_on:
       - db
     networks:
-      - network-whatanime    
+      - whatanime    
 
   redis:
     image: redis:alpine
@@ -58,8 +58,8 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - network-whatanime
+      - whatanime
 
 networks:
-  network-whatanime:
+  whatanime:
     driver: bridge
