@@ -44,7 +44,6 @@ animes
 ```
 
 
-
 ## Running the app
 
 ```bash
@@ -53,9 +52,14 @@ $ docker compose up -d --build
 
 ```
 
+
+## Documentação no Swagger 
+
+Link: http://localhost:5000/api
+
+
 ## Stay in touch
 
 - Author - [Giovani Franz](https://github.com/giovanifranz)
 - Linkedin - [Linkedin](https://www.linkedin.com/in/giovanifranz/)
 
-# WhatAnime
