@@ -17,6 +17,7 @@ USER node
 FROM node:alpine3.14 AS runtime
 
 RUN apk add --no-cache wget
+RUN apk add --no-cache bash
 
 ENV DOCKERIZE_VERSION v0.6.1
 
@@ -32,5 +33,7 @@ COPY --chown=node:node package.json package-lock.json ./
 RUN npm ci --only=production --ignore-scripts && npm cache clean --force
 
 COPY --chown=node:node --from=builder /home/node/app/dist ./dist
+COPY --chown=node:node ./entrypoint.sh ./
+RUN chmod +x ./entrypoint.sh
 
 EXPOSE 5000

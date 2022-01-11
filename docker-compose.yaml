@@ -5,7 +5,7 @@ services:
   app:
     build: ./node
     container_name: app
-    entrypoint: dockerize -wait tcp://mongo:27017 -timeout 30s node dist/main.js
+    entrypoint: dockerize -wait tcp://mongo:27017 -timeout 30s ./entrypoint.sh
     ports:
       - "5000:5000"
     volumes:
@@ -16,8 +16,6 @@ services:
       - db
       - sonic
       - redis
-    environment:
-      - MONGO_DSN=${MONGO_DSN}
 
   sonic:
     image: valeriansaliou/sonic:v1.3.2
