@@ -9,11 +9,9 @@ import {
   Quote,
   AnimeByTitle,
   Ranking,
-  Top,
 } from '../entities/anime.entity';
+import { jikanAPI, animeChan } from '../api';
 
-const jikanAPI = 'https://api.jikan.moe/v3';
-const animeChan = 'https://animechan.vercel.app/api/random';
 
 @Injectable()
 export class ExternalApiService {
@@ -81,12 +79,7 @@ export class ExternalApiService {
     return data;
   }
 
-  async getTopAiring() {
-    const cached = await this.redisCacheService.get('airing');
-    if (cached) {
-      return cached as Array<Top>;
-    }
-
+  getTopAiring() {
     const data = this.httpService.get(`${jikanAPI}/top/anime/1/airing`).pipe(
       map((response: AxiosResponse<Ranking>) => response.data.top.slice(0, 5)),
       tap((ranking) =>
@@ -96,12 +89,7 @@ export class ExternalApiService {
     return data;
   }
 
-  async getTopPopular() {
-    const cached = await this.redisCacheService.get('popular');
-    if (cached) {
-      return cached as Array<Top>;
-    }
-
+  getTopPopular() {
     const data = this.httpService
       .get(`${jikanAPI}/top/anime/1/bypopularity`)
       .pipe(
