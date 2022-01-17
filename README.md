@@ -30,9 +30,13 @@
 [Jikan](https://github.com/jikan-me/jikan) Unofficial MyAnimeList.net PHP API  
 [Animechan](https://github.com/rocktimsaikia/anime-chan) A free restful API serving quality anime quotes  
 
+</Br>
+
 ## Requisites 
 
 [Docker](https://www.docker.com)   
+
+</Br>
 
 ### Mongo 
 
@@ -43,6 +47,7 @@ whatanime
 animes
 ```
 
+</Br>
 
 ## Running the app
 
@@ -52,14 +57,19 @@ $ docker compose up -d --build
 
 ```
 
+</Br>
 
-## Documentação no Swagger 
+## Rotas
 
-Link: http://localhost:5000/api
+Swagger: http://localhost:5000/api  
+Mongo-Express: http://localhost:8081
+
+</Br>
+
+## Desenvolvedor
 
 
-## Stay in touch
-
-- Author - [Giovani Franz](https://github.com/giovanifranz)
-- Linkedin - [Linkedin](https://www.linkedin.com/in/giovanifranz/)
-
+| [<img src="https://avatars.githubusercontent.com/u/79429654?v=4" width="75px;"/>](https://github.com/giovanifranz) |
+| :-: |
+|[Linkedin](https://www.linkedin.com/in/giovanifranz)|
+|[Email](mailto:giovanifranz151@gmail.com)|
