@@ -14,7 +14,7 @@ import { jikanAPI, animeChan } from '../api';
 
 
 @Injectable()
-export class ExternalApiService {
+export class AnimesClient {
   constructor(
     private redisCacheService: RedisCacheService,
     private httpService: HttpService,
