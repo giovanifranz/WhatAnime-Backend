@@ -10,11 +10,11 @@ import { AnimesClient } from './client/animes.client'
 
 @Injectable()
 export class AnimesService {
-  private readonly redisCacheService: RedisCacheService
-  private readonly sonicService: SonicService
-  private readonly animesClient: AnimesClient
   constructor(
-    @InjectModel('Anime') private readonly animeModel: Model<Anime>
+    @InjectModel('Anime') private readonly animeModel: Model<Anime>,
+    private readonly redisCacheService: RedisCacheService,
+    private readonly sonicService: SonicService,
+    private readonly animesClient: AnimesClient
   ) {}
 
   private async createInDatabases(anime: CreateAnimeDto): Promise<Anime> {

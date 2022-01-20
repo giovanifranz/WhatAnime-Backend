@@ -1,8 +1,8 @@
-FROM node:alpine3.14 AS builder
+FROM node:16.13.2-alpine3.14 AS builder
 
 WORKDIR /home/node/app
 
-RUN npm install -g @nestjs/cli@8.0.0
+RUN npm install -g @nestjs/cli
 
 USER root
 
@@ -14,7 +14,7 @@ RUN npm run build
 
 USER node
 
-FROM node:alpine3.14 AS runtime
+FROM node:16.13.2-alpine3.14 AS runtime
 
 RUN apk add --no-cache wget
 RUN apk add --no-cache bash
@@ -25,7 +25,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSI
   && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
   && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
-USER node
+USER root
 
 WORKDIR /home/node/app
 
