@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+
+  build:
+    image: whatanime-bff-prod
+    build:
+      context: .
+      target: runtime
+      dockerfile: ./Dockerfile
+    entrypoint: dockerize -wait tcp://mongo:27017 -timeout 30s ./.docker/entrypoint.sh
+    environment:
+      PORT: 5000
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - 5000:5000
+    depends_on:
+      - mongo
+      - sonic
+      - redis
+    networks:
+      - whatanime
+
+  dev:
+    image: whatanime-bff-dev
+    build:
+      context: .
+      target: builder
+      dockerfile: ./Dockerfile
+    command: dockerize -wait tcp://mongo:27017 -timeout 30s npm run start:dev
+    environment:
+      PORT: 5000
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - 5000:5000
+    depends_on:
+      - mongo
+      - sonic
+      - redis
+    networks:
+      - whatanime
+    restart: unless-stopped
+
+  sonic:
+    image: valeriansaliou/sonic:v1.3.2
+    container_name: sonic
+    restart: always
+    volumes:
+      - ./.docker/sonic/config.cfg:/etc/sonic.cfg
+      - ./.docker/sonic/store/:/var/lib/sonic/store/
+    networks:
+      - whatanime
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - whatanime
+
+  mongo:
+    image: mongo:4.4.11
+    container_name: mongo
+    restart: always
+    volumes:
+      - ./.docker/mongo:/data/db
+    ports:
+      - 27017:27017
+    networks:
+      - whatanime
+
+  mongo-express:
+    image: mongo-express:0.54
+    container_name: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    networks:
+      - whatanime
+
+networks:
+  whatanime:
+    driver: bridge
