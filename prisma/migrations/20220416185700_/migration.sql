@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Anime" ALTER COLUMN "year" DROP NOT NULL;

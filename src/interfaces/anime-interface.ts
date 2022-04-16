@@ -46,9 +46,15 @@ export interface IAnime {
   episodes: number | null;
 }
 
-export interface IQuote {
-  mal_id?: number;
+export interface IResponseQuote{
   anime: string;
+  character: string;
+  quote: string;
+}
+
+export interface IQuote {
+  title: string;
+  slug: string;
   character: string;
   quote: string;
 }

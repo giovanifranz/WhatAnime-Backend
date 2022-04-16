@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "@nestjs/graphql";
+import { Quote } from "./quote";
 
 @ObjectType()
 export class Anime {
@@ -52,5 +53,7 @@ export class Anime {
 
   @Field({ nullable: true })
   episodes?: number;
-}
 
+  @Field(() => [Quote], { nullable: true })
+  quotes?: Quote[];
+}

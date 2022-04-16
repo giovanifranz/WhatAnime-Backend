@@ -2,6 +2,13 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Quote {
+  slug: String!
+  title: String!
+  character: String!
+  quote: String!
+}
+
 type Anime {
   mal_id: Float!
   title: String!
@@ -20,9 +27,12 @@ type Anime {
   premiered: String
   rating: String!
   episodes: Float
+  quotes: [Quote!]
 }
 
 type Query {
   searchAnimeById(id: Float!): Anime!
   searchAnimeByTitle(title: String!): Anime!
+  getRandomAnimeQuote: Quote!
+  getAnimesQuoteByTitle(title: String!): [Quote!]!
 }

@@ -12,7 +12,7 @@ datasource db {
 
 model Anime {
   mal_id         Int     @id @unique
-  title          String
+  title          String  @unique
   slug           String
   title_english  String?
   title_japanese String?
@@ -29,8 +29,20 @@ model Anime {
   rating         String
   episodes       Int?
 
-  User   User?   @relation(fields: [userId], references: [id])
-  userId String?
+  User    User?   @relation(fields: [user_id], references: [id])
+  user_id String?
+
+  @@map("anime")
+}
+
+model Quote {
+  id        String @id @default(uuid())
+  quote     String @unique
+  slug      String
+  title     String
+  character String
+
+  @@map("quote")
 }
 
 model User {
@@ -41,4 +53,6 @@ model User {
   updatedAt DateTime @default(now()) @updatedAt
 
   favorites Anime[]
+
+  @@map("user")
 }
