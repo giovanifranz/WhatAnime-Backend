@@ -1,13 +1,9 @@
-export interface ISearchAnimeById {
-  mal_id: number;
-}
-
 export interface IResponseAnime {
   mal_id: number;
   title: string;
   title_english: string;
   title_japanese: string;
-  year: number;
+  year: number | null;
   score: number;
   type: string;
   source: string;
@@ -18,6 +14,11 @@ export interface IResponseAnime {
   status: string;
   duration: string;
   aired: {
+    prop: {
+      from: {
+        year: number | null
+      },
+    }
     string: string;
   };
   premiered: string;

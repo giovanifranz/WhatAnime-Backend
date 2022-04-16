@@ -16,7 +16,7 @@ model Anime {
   slug           String
   title_english  String?
   title_japanese String?
-  year           Int
+  year           Int?
   score          Float
   type           String
   source         String
