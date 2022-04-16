@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { map } from "rxjs";
+import { switchMap } from "rxjs";
 import { PrismaService } from "src/database/prisma/prisma.service";
 import { IAnime } from "../interfaces/anime-interface";
 import { ApiService } from "./api.service";
@@ -18,8 +18,10 @@ export class AnimeService {
     }
 
     return this.apiService.getAnimeByIdOnJikan(mal_id).pipe(
-      map(async (anime: IAnime) => {
-        return await this.prisma.anime.create({ data: { ...anime } });
+      switchMap(async (anime: IAnime) => {
+        return await Promise.resolve(
+          this.prisma.anime.create({ data: { ...anime } })
+        );
       })
     );
   }
@@ -34,16 +36,21 @@ export class AnimeService {
     }
 
     return this.apiService.getAnimeByTitleOnJikan(title).pipe(
-      map(async (animes: IAnime[]) => {
-        const AlreadyExists = await this.prisma.anime.findFirst({
+      switchMap(async (animes: IAnime[]) => {
+        let anime = await this.prisma.anime.findFirst({
           where: { mal_id: animes[0].mal_id },
         });
 
-        if (AlreadyExists) {
-          return AlreadyExists;
+        if (!anime) {
+          anime = await this.prisma.anime.create({
+            data: { ...animes[0] },
+          });
         }
 
-        return await this.prisma.anime.create({ data: { ...animes[0] } });
+        return anime;
+      }),
+      switchMap(async (anime) => {
+        return await Promise.resolve(anime);
       })
     );
   }
