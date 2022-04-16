@@ -17,7 +17,7 @@ export class Anime {
   @Field({ nullable: true })
   title_japanese: string;
 
-  @Field()
+  @Field({ nullable: true })
   year: number;
 
   @Field()

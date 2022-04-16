@@ -8,7 +8,7 @@ type Anime {
   slug: String!
   title_english: String
   title_japanese: String
-  year: Float!
+  year: Float
   score: Float!
   type: String!
   source: String!
@@ -23,9 +23,6 @@ type Anime {
 }
 
 type Query {
-  searchById(data: CreateAnimeInput!): Anime!
-}
-
-input CreateAnimeInput {
-  mal_id: Float!
+  searchAnimeById(id: Float!): Anime!
+  searchAnimeByTitle(title: String!): Anime!
 }
