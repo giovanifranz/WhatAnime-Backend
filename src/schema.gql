@@ -28,7 +28,7 @@ type Anime {
   premiered: String
   rating: String!
   episodes: Float
-  quotes: [Quote!]!
+  quotes: [Quote!]
 }
 
 type Query {

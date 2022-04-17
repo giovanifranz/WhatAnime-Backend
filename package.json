@@ -19,7 +19,8 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "dev": "docker-compose up --build"
   },
   "dependencies": {
     "@nestjs/apollo": "^10.0.8",
@@ -40,7 +41,8 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "slugify": "^1.6.5"
+    "slugify": "^1.6.5",
+    "sonic-channel": "^1.2.7"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",

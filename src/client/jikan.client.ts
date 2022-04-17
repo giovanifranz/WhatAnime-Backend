@@ -1,12 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
+import { InjectPinoLogger, PinoLogger } from "nestjs-pino";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { IAnime, IResponseAnime } from "src/interfaces/anime-interface";
 import { formatSlug } from "src/common/mappers";
+import { catchException } from "src/common/catch.exception";
 
 @Injectable()
 export class JikanClient {
+  @InjectPinoLogger(JikanClient.name) private readonly logger: PinoLogger;
+
   private jikanAPI = "https://api.jikan.moe/v4";
 
   constructor(private httpService: HttpService) {}
@@ -44,7 +48,10 @@ export class JikanClient {
           return data.map((response) => {
             return this.animeMapper(response);
           });
-        })
+        }),
+        catchException((error) =>
+          this.logger.error({ error }, "Erro ao buscar animes por título")
+        )
       );
   }
 
@@ -53,7 +60,10 @@ export class JikanClient {
       map(({ data }) => {
         const { data: response } = data;
         return this.animeMapper(response);
-      })
+      }),
+      catchException((error) =>
+        this.logger.error({ error }, "Erro ao buscar animes por mal_id")
+      )
     );
   }
 
@@ -62,7 +72,10 @@ export class JikanClient {
       map(({ data }) => {
         const { data: response } = data;
         return this.animeMapper(response as IResponseAnime);
-      })
+      }),
+      catchException((error) =>
+        this.logger.error({ error }, "Erro ao buscar anime random")
+      )
     );
   }
 
@@ -73,7 +86,10 @@ export class JikanClient {
         return results.data.map((response: IResponseAnime) => {
           return this.animeMapper(response);
         });
-      })
+      }),
+      catchException((error) =>
+        this.logger.error({ error }, "Erro ao buscar top ranking")
+      )
     );
   }
 }

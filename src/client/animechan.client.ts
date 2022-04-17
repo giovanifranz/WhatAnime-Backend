@@ -1,13 +1,17 @@
 import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
+import { InjectPinoLogger, PinoLogger } from "nestjs-pino";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { AxiosResponse } from "axios";
 import { IQuote, IResponseQuote } from "src/interfaces/quote-interface";
 import { formatSlug } from "src/common/mappers";
+import { catchException } from "src/common/catch.exception";
 
 @Injectable()
 export class AnimechanClient {
+  @InjectPinoLogger(AnimechanClient.name) private readonly logger: PinoLogger;
+
   private animeChan = "https://animechan.vercel.app/api";
 
   constructor(private httpService: HttpService) {}
@@ -29,7 +33,10 @@ export class AnimechanClient {
           return data.map((quote: IResponseQuote) => {
             return this.quoteMapper(quote);
           });
-        })
+        }),
+        catchException((error) =>
+          this.logger.error({ error }, "Erro ao buscar uma frase aleatória")
+        )
       );
   }
 
@@ -38,7 +45,10 @@ export class AnimechanClient {
       map((response: AxiosResponse<IResponseQuote>) => {
         const { data } = response;
         return this.quoteMapper(data);
-      })
+      }),
+      catchException((error) =>
+        this.logger.error({ error }, "Erro ao buscar uma frase aleatória")
+      )
     );
   }
 }
