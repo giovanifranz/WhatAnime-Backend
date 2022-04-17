@@ -55,23 +55,13 @@ ___
 ___
 </Br>
 
-### PostgreSQL
-
-```bash
-
-$ docker compose up -d
-
-```
-
-</Br>
-
 ___
 </Br>
 
 ## Running the app
 
 ```bash
-$ npm run start:dev
+$ npm run dev
 
 ```
 
