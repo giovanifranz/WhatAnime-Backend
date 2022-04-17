@@ -13,15 +13,13 @@ export const loggerConfig = {
   pinoHttp: {
     redact: {
       remove: true,
-      paths: ["pid", "responseTime", "res.headers", "req.headers"],
+      paths: ['pid', 'responseTime', 'res.headers', 'req.headers'],
     },
     transport: {
-      target: "pino-pretty",
+      target: 'pino-pretty',
       options: {
         colorize: true,
       },
     },
   },
-};
-
-
+}
