@@ -1,12 +1,14 @@
 import { Injectable } from "@nestjs/common";
-import { switchMap } from "rxjs";
+import { InjectPinoLogger, PinoLogger } from "nestjs-pino";
+import { switchMap, tap } from "rxjs";
 import { JikanClient } from "src/client/jikan.client";
-import { formatText } from "src/common/mappers";
+import { catchException } from "src/common/catch.exception";
 import { PrismaService } from "src/database/prisma/prisma.service";
 import { IAnime } from "../interfaces/anime-interface";
 
 @Injectable()
 export class AnimeService {
+  @InjectPinoLogger(AnimeService.name) private readonly logger: PinoLogger;
   constructor(
     private prisma: PrismaService,
     private jikanClient: JikanClient
@@ -17,32 +19,68 @@ export class AnimeService {
       where: { mal_id },
     });
 
-    if (animeAlreadyExists) {
-      return animeAlreadyExists;
+    if (!animeAlreadyExists) {
+      return this.searchAnimeByIdInExternalApi(mal_id).pipe(
+        tap((anime) =>
+          this.logger.info(
+            { anime },
+            "Retornando anime por mal_id em API externa"
+          )
+        ),
+        catchException((error) =>
+          this.logger.error({ error }, "Erro ao buscar anime em API externa")
+        )
+      );
     }
 
+    this.logger.info(
+      { animeAlreadyExists },
+      "Retornando anime a partir do banco de dados"
+    );
+    return animeAlreadyExists;
+  }
+
+  searchAnimeByIdInExternalApi(mal_id: number) {
     return this.jikanClient.getAnimeByIdOnJikan(mal_id).pipe(
       switchMap(async (anime: IAnime) => {
         return await Promise.resolve(
-          this.prisma.anime.create({ data: { ...anime } }).catch((error) => {
-            throw new Error(error);
-          })
+          this.prisma.anime.create({ data: { ...anime } })
         );
-      })
+      }),
+      catchException((error) =>
+        this.logger.error({ error }, "Erro ao salvar anime no banco de dados")
+      )
     );
   }
 
   async searchAnimesByTitle(title: string) {
-    title = formatText(title);
     const animesAlreadyExists = await this.prisma.anime.findMany({
       where: { title: { contains: title }, score: { not: null } },
       orderBy: { score: "desc" },
     });
 
-    if (animesAlreadyExists.length) {
-      return animesAlreadyExists;
+    if (!animesAlreadyExists.length) {
+      return this.searchAnimesByTitleInExternalApi(title).pipe(
+        tap((animes) =>
+          this.logger.info(
+            { animes },
+            "Retornando animes por título em API externa"
+          )
+        ),
+        catchException((error) =>
+          this.logger.error({ error }, "Erro ao buscar animes em API externa")
+        )
+      );
     }
 
+    this.logger.info(
+      { animesAlreadyExists },
+      "Retornando animes a partir do banco de dados"
+    );
+    return animesAlreadyExists;
+  }
+
+  searchAnimesByTitleInExternalApi(title: string) {
     return this.jikanClient.getAnimesByTitleOnJikan(title).pipe(
       switchMap(async (animes: IAnime[]) => {
         return animes.map(async (anime) => {
@@ -56,19 +94,18 @@ export class AnimeService {
           }
 
           if (!animeAlreadyExistisInDatabase) {
-            return await this.prisma.anime
-              .create({
-                data: { ...anime },
-              })
-              .catch((error) => {
-                throw new Error(error);
-              });
+            return await this.prisma.anime.create({
+              data: { ...anime },
+            });
           }
         });
       }),
       switchMap(async (animes) => {
         return await Promise.all(animes);
-      })
+      }),
+      catchException((error) =>
+        this.logger.error({ error }, "Erro ao salvar animes no banco de dados")
+      )
     );
   }
 }
