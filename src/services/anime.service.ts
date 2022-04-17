@@ -35,7 +35,7 @@ export class AnimeService {
   async searchAnimesByTitle(title: string) {
     title = formatText(title);
     const animesAlreadyExists = await this.prisma.anime.findMany({
-      where: { title: { contains: title } },
+      where: { title: { contains: title }, score: { not: null } },
       orderBy: { score: "desc" },
     });
 
