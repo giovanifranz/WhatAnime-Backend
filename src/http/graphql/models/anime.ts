@@ -1,59 +1,60 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { Quote } from "./quote";
+import { Field, ObjectType } from '@nestjs/graphql'
+
+import { Quote } from './quote'
 
 @ObjectType()
 export class Anime {
   @Field()
-  mal_id: number;
+  mal_id: number
 
   @Field()
-  title: string;
+  title: string
 
   @Field()
-  slug: string;
+  slug: string
 
   @Field({ nullable: true })
-  title_english: string;
+  title_english: string
 
   @Field({ nullable: true })
-  title_japanese: string;
+  title_japanese: string
 
   @Field({ nullable: true })
-  year: number;
+  year: number
 
   @Field({ nullable: true })
-  score: number;
+  score: number
 
   @Field()
-  type: string;
+  type: string
 
   @Field()
-  source: string;
+  source: string
 
   @Field()
-  image_url: string;
+  image_url: string
 
   @Field({ nullable: true })
-  synopsis: string;
+  synopsis: string
 
   @Field()
-  status: string;
+  status: string
 
   @Field()
-  duration: string;
+  duration: string
 
   @Field()
-  aired_string: string;
+  aired_string: string
 
   @Field({ nullable: true })
-  premiered: string;
+  premiered: string
 
   @Field()
-  rating: string;
+  rating: string
 
   @Field({ nullable: true })
-  episodes?: number;
+  episodes?: number
 
   @Field(() => [Quote], { nullable: true })
-  quotes?: Quote[];
+  quotes?: Quote[]
 }

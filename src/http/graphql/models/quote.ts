@@ -1,22 +1,21 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-import { Anime } from "./anime";
+import { Field, ObjectType } from '@nestjs/graphql'
+
+import { Anime } from './anime'
 
 @ObjectType()
 export class Quote {
   @Field()
-  slug: string;
+  slug: string
 
   @Field()
-  title: string;
+  title: string
 
   @Field()
-  character: string;
-  
+  character: string
+
   @Field()
-  quote: string;
+  quote: string
 
   @Field(() => [Anime])
-  animes?: Anime;
+  animes?: Anime
 }
-
-
