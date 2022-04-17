@@ -3,7 +3,7 @@ import { HttpService } from "@nestjs/axios";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { AxiosResponse } from "axios";
-import { IQuote, IResponseQuote } from "src/interfaces/anime-interface";
+import { IQuote, IResponseQuote } from "src/interfaces/quote-interface";
 import { formatSlug } from "src/common/mappers";
 
 @Injectable()

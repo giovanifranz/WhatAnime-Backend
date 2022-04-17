@@ -1,10 +1,14 @@
-import { Resolver, Query, Args } from "@nestjs/graphql";
+import { Resolver, Query, Args, ResolveField, Parent } from "@nestjs/graphql";
 import { AnimeService } from "src/services/anime.service";
+import { QuoteService } from "src/services/quote.service";
 import { Anime } from "../models/anime";
 
-@Resolver()
+@Resolver(() => Anime)
 export class AnimeResolver {
-  constructor(private readonly animeService: AnimeService) {}
+  constructor(
+    private readonly animeService: AnimeService,
+    private readonly quoteService: QuoteService
+  ) {}
 
   @Query(() => Anime)
   async searchAnimeById(@Args("id") id: number) {
@@ -14,5 +18,10 @@ export class AnimeResolver {
   @Query(() => [Anime])
   async searchAnimesByTitle(@Args("title") title: string) {
     return await this.animeService.searchAnimesByTitle(title);
+  }
+
+  @ResolveField()
+  async quotes(@Parent() anime: Anime) {
+    return await this.quoteService.getAnimesQuoteByTitle(anime.title);
   }
 }

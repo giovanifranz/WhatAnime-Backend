@@ -46,19 +46,6 @@ export interface IAnime {
   episodes: number | null;
 }
 
-export interface IResponseQuote{
-  anime: string;
-  character: string;
-  quote: string;
-}
-
-export interface IQuote {
-  title: string;
-  slug: string;
-  character: string;
-  quote: string;
-}
-
 export interface ITop {
   mal_id: number;
   title: string;

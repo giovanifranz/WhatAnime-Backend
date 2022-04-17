@@ -34,8 +34,17 @@ export class QuoteService {
     );
   }
 
-  getAnimesQuoteByTitle(title: string) {
+  async getAnimesQuoteByTitle(title: string) {
     title = formatText(title);
+  
+    const quotesAlreadyExist = await this.prisma.quote.findMany({
+      where: { slug: { contains: title } },
+    });
+
+    if (quotesAlreadyExist.length) {
+      return quotesAlreadyExist;
+    }
+ 
     return this.animechanClient.getAnimesQuoteByTitle(title).pipe(
       switchMap((data) => {
         return data.map(async (response) => {
