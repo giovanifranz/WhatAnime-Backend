@@ -1,6 +1,6 @@
 import { Resolver, Query, Args, ResolveField, Parent } from "@nestjs/graphql";
 import { InjectPinoLogger, PinoLogger } from "nestjs-pino";
-import { formatText } from "src/common/mappers";
+import { formatText, formatTitleForQuote } from "src/common/mappers";
 import { AnimeService } from "src/services/anime.service";
 import { QuoteService } from "src/services/quote.service";
 import { Anime } from "../models/anime";
@@ -27,7 +27,7 @@ export class AnimeResolver {
   @ResolveField()
   async quotes(@Parent() anime: Anime) {
     return await this.quoteService.getAnimesQuoteByTitle(
-      formatText(anime.title)
+      formatTitleForQuote(anime.title)
     );
   }
 }

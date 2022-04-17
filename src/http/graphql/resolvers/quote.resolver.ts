@@ -5,7 +5,7 @@ import { catchException } from "src/common/catch.exception";
 import { AnimeService } from "src/services/anime.service";
 import { QuoteService } from "src/services/quote.service";
 import { Quote } from "../models/quote";
-import { formatText } from "src/common/mappers";
+import { formatText, formatTitleForQuote } from "src/common/mappers";
 
 @Resolver(() => Quote)
 export class QuoteResolver {
@@ -28,7 +28,9 @@ export class QuoteResolver {
 
   @Query(() => [Quote])
   async getAnimesQuoteByTitle(@Args("title") title: string) {
-    return await this.quoteService.getAnimesQuoteByTitle(formatText(title));
+    return await this.quoteService.getAnimesQuoteByTitle(
+      formatTitleForQuote(title)
+    );
   }
 
   @ResolveField()
