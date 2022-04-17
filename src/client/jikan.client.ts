@@ -35,7 +35,7 @@ export class JikanClient {
     };
   }
 
-  getAnimesByTitleOnJikan(title: string) {
+  getAnimesByTitleOnJikan(title: string): Observable<Array<IAnime>> {
     return this.httpService
       .get(`${this.jikanAPI}/anime?q=${title}&order_by=score&&sort=desc`)
       .pipe(
@@ -61,7 +61,7 @@ export class JikanClient {
     return this.httpService.get(`${this.jikanAPI}/random/anime`).pipe(
       map(({ data }) => {
         const { data: response } = data;
-        return this.animeMapper(response);
+        return this.animeMapper(response as IResponseAnime);
       })
     );
   }
