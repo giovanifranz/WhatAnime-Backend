@@ -1,10 +1,44 @@
 version: '3'
 
 services:
-  # Application
+
+  dev:
+    image: whatanime-backend-dev
+    container_name: whatanime-backend-dev
+    build:
+      context: .
+      target: builder
+      dockerfile: ./Dockerfile
+    command: dockerize -wait tcp://database:5432 -timeout 30s npm run start:dev
+    environment:
+      PORT: ${PORT}
+      DATABASE_URL: ${DATABASE_URL}
+      AUTH_SONIC: ${AUTH_SONIC}
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - sonic
+      - database
+    restart: unless-stopped
+    networks:
+      - backend
+
+  sonic:
+    image: 'valeriansaliou/sonic:v1.3.2'
+    container_name: sonic
+    restart: always
+    volumes:
+      - ./.docker/sonic/config.cfg:/etc/sonic.cfg
+      - ./.docker/sonic/store/:/var/lib/sonic/store/
+    networks:
+      - backend
 
   database:
     image: 'bitnami/postgresql'
+    container_name: database
     ports:
       - '5432:5432'
     environment:
@@ -13,9 +47,13 @@ services:
       - POSTGRESQL_DATABASE=app
     volumes:
       - 'postgresql_data:/bitnami/postgresql'
-
-
+    networks:
+      - backend
 
 volumes:
   postgresql_data:
     driver: local
+
+networks:
+  backend:
+    driver: bridge
