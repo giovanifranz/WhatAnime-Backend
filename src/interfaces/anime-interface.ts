@@ -4,7 +4,7 @@ export interface IResponseAnime {
   title_english: string;
   title_japanese: string;
   year: number | null;
-  score: number;
+  score: number | null;
   type: string;
   source: string;
   images: {

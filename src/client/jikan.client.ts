@@ -2,19 +2,12 @@ import { Injectable } from "@nestjs/common";
 import { HttpService } from "@nestjs/axios";
 import { map } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { AxiosResponse } from "axios";
-import {
-  IAnime,
-  IQuote,
-  IResponseAnime,
-  IResponseQuote,
-} from "src/interfaces/anime-interface";
-import slugify from "slugify";
+import { IAnime, IResponseAnime } from "src/interfaces/anime-interface";
+import { formatSlug } from "src/common/mappers";
 
 @Injectable()
-export class ApiService {
+export class JikanClient {
   private jikanAPI = "https://api.jikan.moe/v4";
-  private animeChan = "https://animechan.vercel.app/api";
 
   constructor(private httpService: HttpService) {}
 
@@ -35,44 +28,14 @@ export class ApiService {
       episodes: response.episodes,
       year: response.year ? response.year : response.aired.prop.from.year,
       aired_string: response.aired.string,
-      slug: slugify(response.title, { lower: true }),
+      slug: formatSlug(response.title),
       synopsis: response.synopsis
         ? response.synopsis.replace(" [Written by MAL Rewrite]", "")
         : null,
     };
   }
 
-  private quoteMapper(response: IResponseQuote): IQuote {
-    return {
-      title: response.anime,
-      slug: slugify(response.anime, { lower: true }),
-      character: response.character,
-      quote: response.quote,
-    };
-  }
-
-  getAnimesQuoteByTitle(title: string): Observable<Array<IQuote>> {
-    return this.httpService
-      .get(`${this.animeChan}/quotes/anime?title=${title}`)
-      .pipe(
-        map(({ data }) => {
-          return data.map((quote: IResponseQuote) => {
-            return this.quoteMapper(quote);
-          });
-        })
-      );
-  }
-
-  getRandomAnimeQuote(): Observable<IQuote> {
-    return this.httpService.get(`${this.animeChan}/random`).pipe(
-      map((response: AxiosResponse<IResponseQuote>) => {
-        const { data } = response;
-        return this.quoteMapper(data);
-      })
-    );
-  }
-
-  getAnimeByTitleOnJikan(title: string) {
+  getAnimesByTitleOnJikan(title: string) {
     return this.httpService
       .get(`${this.jikanAPI}/anime?q=${title}&order_by=score&&sort=desc`)
       .pipe(

@@ -11,8 +11,8 @@ export class AnimeResolver {
     return await this.animeService.searchAnimeById(id);
   }
 
-  @Query(() => Anime)
-  async searchAnimeByTitle(@Args("title") title: string) {
-    return await this.animeService.searchAnimeByTitle(title);
+  @Query(() => [Anime])
+  async searchAnimesByTitle(@Args("title") title: string) {
+    return await this.animeService.searchAnimesByTitle(title);
   }
 }

@@ -17,7 +17,7 @@ model Anime {
   title_english  String?
   title_japanese String?
   year           Int?
-  score          Float
+  score          Float?
   type           String
   source         String
   image_url      String
