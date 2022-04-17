@@ -1,10 +1,13 @@
-import { Resolver, Query, Args } from "@nestjs/graphql";
+import { Resolver, Query, Args, ResolveField, Parent } from "@nestjs/graphql";
+import { AnimeService } from "src/services/anime.service";
 import { QuoteService } from "src/services/quote.service";
 import { Quote } from "../models/quote";
 
-@Resolver()
+@Resolver(() => Quote)
 export class QuoteResolver {
-  constructor(private readonly quoteService: QuoteService) {}
+  constructor(private readonly quoteService: QuoteService,
+      private readonly animeService: AnimeService
+    ) {}
 
   @Query(() => Quote)
   getRandomAnimeQuote() {
@@ -12,7 +15,12 @@ export class QuoteResolver {
   }
 
   @Query(() => [Quote])
-  getAnimesQuoteByTitle(@Args("title") title: string) {
-    return this.quoteService.getAnimesQuoteByTitle(title);
+  async getAnimesQuoteByTitle(@Args("title") title: string) {
+    return await this.quoteService.getAnimesQuoteByTitle(title);
+  }
+
+  @ResolveField()
+  async animes(@Parent() quote: Quote) {
+    return await this.animeService.searchAnimesByTitle(quote.title);
   }
 }

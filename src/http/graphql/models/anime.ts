@@ -54,6 +54,6 @@ export class Anime {
   @Field({ nullable: true })
   episodes?: number;
 
-  @Field(() => [Quote], { nullable: true })
+  @Field(() => [Quote])
   quotes?: Quote[];
 }
