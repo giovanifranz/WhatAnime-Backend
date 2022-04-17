@@ -1,10 +1,10 @@
 {
-  "name": "animes",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "name": "whatanime-backend",
+  "version": "1.0.0",
+  "description": "API para busca e gravação de dados relacionados a Animes.",
+  "author": "Giovani Franz",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
