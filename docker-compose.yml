@@ -13,6 +13,7 @@ services:
     environment:
       PORT: ${PORT}
       DATABASE_URL: ${DATABASE_URL}
+      AUTH_SONIC: ${AUTH_SONIC}
     volumes:
       - .:/home/node/app
       - /home/node/app/node_modules
@@ -20,7 +21,7 @@ services:
       - ${PORT}:${PORT}
     depends_on:
       - sonic
-      - redis
+      - database
     restart: unless-stopped
     networks:
       - backend
@@ -29,8 +30,6 @@ services:
     image: 'valeriansaliou/sonic:v1.3.2'
     container_name: sonic
     restart: always
-    ports:
-      - '1491:1491'
     volumes:
       - ./.docker/sonic/config.cfg:/etc/sonic.cfg
       - ./.docker/sonic/store/:/var/lib/sonic/store/
