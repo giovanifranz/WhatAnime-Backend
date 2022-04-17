@@ -16,7 +16,7 @@ type Anime {
   title_english: String
   title_japanese: String
   year: Float
-  score: Float!
+  score: Float
   type: String!
   source: String!
   image_url: String!
@@ -32,7 +32,7 @@ type Anime {
 
 type Query {
   searchAnimeById(id: Float!): Anime!
-  searchAnimeByTitle(title: String!): Anime!
+  searchAnimesByTitle(title: String!): [Anime!]!
   getRandomAnimeQuote: Quote!
   getAnimesQuoteByTitle(title: String!): [Quote!]!
 }

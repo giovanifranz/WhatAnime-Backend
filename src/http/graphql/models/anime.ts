@@ -21,7 +21,7 @@ export class Anime {
   @Field({ nullable: true })
   year: number;
 
-  @Field()
+  @Field({ nullable: true })
   score: number;
 
   @Field()

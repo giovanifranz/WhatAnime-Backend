@@ -1,15 +1,17 @@
+import path from "node:path";
 import { Module } from "@nestjs/common";
-import { AnimeService } from "src/services/anime.service";
-import { AnimeResolver } from "./graphql/resolvers/anime.resolver";
 import { ApolloDriver } from "@nestjs/apollo";
 import { GraphQLModule } from "@nestjs/graphql";
 import { ConfigModule } from "@nestjs/config";
-import { DatabaseModule } from "src/database/database.module";
-import path from "node:path";
-import { ApiService } from "src/services/api.service";
 import { HttpModule } from "@nestjs/axios";
-import { QuoteService } from "src/services/quote.service";
+import { AnimeService } from "src/services/anime.service";
+import { AnimeResolver } from "./graphql/resolvers/anime.resolver";
 import { QuoteResolver } from "./graphql/resolvers/quote.resolver";
+import { DatabaseModule } from "src/database/database.module";
+import { QuoteService } from "src/services/quote.service";
+import { JikanClient } from "src/client/jikan.client";
+import { AnimechanClient } from "src/client/animechan.client";
+
 
 @Module({
   imports: [
@@ -25,7 +27,8 @@ import { QuoteResolver } from "./graphql/resolvers/quote.resolver";
     AnimeResolver,
     QuoteResolver,
 
-    ApiService,
+    JikanClient,
+    AnimechanClient,
     AnimeService,
     QuoteService,
   ],

@@ -1,21 +1,29 @@
 import { Injectable } from "@nestjs/common";
 import { switchMap } from "rxjs";
+import { AnimechanClient } from "src/client/animechan.client";
+import { formatText } from "src/common/mappers";
 import { PrismaService } from "src/database/prisma/prisma.service";
-import { ApiService } from "./api.service";
 
 @Injectable()
 export class QuoteService {
-  constructor(private apiService: ApiService, private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private animechanClient: AnimechanClient
+  ) {}
 
   getRandomAnimeQuote() {
-    return this.apiService.getRandomAnimeQuote().pipe(
+    return this.animechanClient.getRandomAnimeQuote().pipe(
       switchMap(async (response) => {
         let quote = await this.prisma.quote.findFirst({
           where: { quote: { equals: response.quote } },
         });
 
         if (!quote) {
-          quote = await this.prisma.quote.create({ data: { ...response } });
+          quote = await this.prisma.quote
+            .create({ data: { ...response } })
+            .catch((error) => {
+              throw new Error(error);
+            });
         }
 
         return quote;
@@ -27,7 +35,8 @@ export class QuoteService {
   }
 
   getAnimesQuoteByTitle(title: string) {
-    return this.apiService.getAnimesQuoteByTitle(title).pipe(
+    title = formatText(title);
+    return this.animechanClient.getAnimesQuoteByTitle(title).pipe(
       switchMap((data) => {
         return data.map(async (response) => {
           let quotes = await this.prisma.quote.findMany({
@@ -38,10 +47,14 @@ export class QuoteService {
             return quotes;
           }
 
-          await this.prisma.quote.createMany({
-            data,
-            skipDuplicates: true,
-          });
+          await this.prisma.quote
+            .createMany({
+              data,
+              skipDuplicates: true,
+            })
+            .catch((error) => {
+              throw new Error(error);
+            });
 
           quotes = await this.prisma.quote.findMany({
             where: { slug: response.slug },

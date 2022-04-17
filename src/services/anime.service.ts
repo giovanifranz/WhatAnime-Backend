@@ -1,12 +1,16 @@
 import { Injectable } from "@nestjs/common";
 import { switchMap } from "rxjs";
+import { JikanClient } from "src/client/jikan.client";
+import { formatText } from "src/common/mappers";
 import { PrismaService } from "src/database/prisma/prisma.service";
 import { IAnime } from "../interfaces/anime-interface";
-import { ApiService } from "./api.service";
 
 @Injectable()
 export class AnimeService {
-  constructor(private prisma: PrismaService, private apiService: ApiService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jikanClient: JikanClient
+  ) {}
 
   async searchAnimeById(mal_id: number) {
     const animeAlreadyExists = await this.prisma.anime.findUnique({
@@ -17,40 +21,53 @@ export class AnimeService {
       return animeAlreadyExists;
     }
 
-    return this.apiService.getAnimeByIdOnJikan(mal_id).pipe(
+    return this.jikanClient.getAnimeByIdOnJikan(mal_id).pipe(
       switchMap(async (anime: IAnime) => {
         return await Promise.resolve(
-          this.prisma.anime.create({ data: { ...anime } })
+          this.prisma.anime.create({ data: { ...anime } }).catch((error) => {
+            throw new Error(error);
+          })
         );
       })
     );
   }
 
-  async searchAnimeByTitle(title: string) {
-    const animeAlreadyExists = await this.prisma.anime.findFirst({
+  async searchAnimesByTitle(title: string) {
+    title = formatText(title);
+    const animesAlreadyExists = await this.prisma.anime.findMany({
       where: { title: { contains: title.toLowerCase() } },
+      orderBy: { score: "desc" },
     });
 
-    if (animeAlreadyExists) {
-      return animeAlreadyExists;
+    if (animesAlreadyExists.length) {
+      return animesAlreadyExists;
     }
 
-    return this.apiService.getAnimeByTitleOnJikan(title).pipe(
+    return this.jikanClient.getAnimesByTitleOnJikan(title).pipe(
       switchMap(async (animes: IAnime[]) => {
-        let anime = await this.prisma.anime.findFirst({
-          where: { mal_id: animes[0].mal_id },
+        return animes.map(async (anime) => {
+          const animeAlreadyExistisInDatabase =
+            await this.prisma.anime.findUnique({
+              where: { mal_id: anime.mal_id },
+            });
+
+          if (animeAlreadyExistisInDatabase) {
+            return animeAlreadyExistisInDatabase;
+          }
+
+          if (!animeAlreadyExistisInDatabase) {
+            return await this.prisma.anime
+              .create({
+                data: { ...anime },
+              })
+              .catch((error) => {
+                throw new Error(error);
+              });
+          }
         });
-
-        if (!anime) {
-          anime = await this.prisma.anime.create({
-            data: { ...animes[0] },
-          });
-        }
-
-        return anime;
       }),
-      switchMap(async (anime) => {
-        return await Promise.resolve(anime);
+      switchMap(async (animes) => {
+        return await Promise.all(animes);
       })
     );
   }
