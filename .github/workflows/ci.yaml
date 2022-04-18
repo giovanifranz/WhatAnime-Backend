@@ -1,4 +1,4 @@
-name: ci-sonarcloud
+name: ci-whatanime
 on:
   pull_request:
     branches:
@@ -16,9 +16,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci --silent
-      - run: npm run format
-      - run: npm run lint
+      - name: Install packages
+        run: npm ci --silent
+      - name: Format
+        run: npm run format
+      - name: Linter
+        run: npm run lint
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
