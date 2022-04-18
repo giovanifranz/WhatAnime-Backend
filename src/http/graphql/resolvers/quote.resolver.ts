@@ -22,12 +22,12 @@ export class QuoteResolver {
   }
 
   @Query(() => [Quote])
-  async getAnimesQuoteByTitle(@Args('title') title: string) {
-    return await this.quoteService.getAnimesQuoteByTitle(formatTitleForQuote(title))
+  getAnimesQuoteByTitle(@Args('title') title: string) {
+    return this.quoteService.getAnimesQuoteByTitle(formatTitleForQuote(title))
   }
 
   @ResolveField()
-  async animes(@Parent() quote: Quote) {
-    return await this.animeService.searchAnimesByTitle(formatText(quote.title))
+  animes(@Parent() quote: Quote) {
+    return this.animeService.searchAnimesByTitle(formatText(quote.title))
   }
 }
