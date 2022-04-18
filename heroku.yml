@@ -1,8 +1,35 @@
 build:
-  docker:
-    web: Dockerfile
-  config:
-    PORT: 3000
+  whatanime-backend:
+    image: whatanime-backend-prod
+    build:
+      context: .
+      dockerfile: ./Dockerfile-prod
+    environment:
+      PORT: ${PORT}
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - sonic
+    networks:
+      - backend
+
+  sonic:
+    image: 'valeriansaliou/sonic:v1.3.2'
+    container_name: sonic
+    restart: always
+    volumes:
+      - ./.docker/sonic/config.cfg:/etc/sonic.cfg
+      - ./.docker/sonic/store/:/var/lib/sonic/store/
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
 
 run:
   web: npm run docker:prod
