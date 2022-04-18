@@ -1,8 +1,10 @@
-name: ci-whatanime
 on:
   pull_request:
     branches:
       - dev
+  push:
+    branches:
+      - main
 
 jobs:
   run-cli:
@@ -12,7 +14,7 @@ jobs:
         node-version: ["16.x", "17.x"]
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 17.x
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
@@ -27,3 +29,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 17.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 17.x
+      - name: Install packages
+        run: npm ci --silent
+      - name: Format
+        run: npm run format
+      - name: Linter
+        run: npm run lint
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: whatanime-backend
+          heroku_email: giovanifranz151@gmail.com
