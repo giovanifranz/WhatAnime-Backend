@@ -18,11 +18,11 @@
 
 ### Stack
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) Framework TypeScript starter repository.
 
 [Sonic](https://github.com/valeriansaliou/sonic) Sonic is a fast, lightweight and schema-less search backend. It ingests search texts and identifier tuples that can then be queried against in a microsecond's time.
 
-[Prisma ORM](https://www.prisma.io/)Prisma helps app developers build faster and make fewer errors with an open source database toolkit for PostgreSQL, MySQL, SQL Server, SQLite, MongoDB and CockroachDB (Preview).
+[Prisma ORM](https://www.prisma.io/) Prisma helps app developers build faster and make fewer errors with an open source database toolkit for PostgreSQL, MySQL, SQL Server, SQLite, MongoDB and CockroachDB (Preview).
 
 [Typescript](https://github.com/microsoft/TypeScript) Superset of JavaScript.
 
@@ -50,9 +50,6 @@ ___
 
 [Docker Compose](https://www.docker.com)
 
-</Br>
-
-___
 </Br>
 
 ___
