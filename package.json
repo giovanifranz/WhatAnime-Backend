@@ -5,6 +5,9 @@
   "author": "Giovani Franz",
   "private": true,
   "license": "MIT",
+  "engines": {
+    "node": "17.9.0"
+  },
   "scripts": {
     "migrate:dev": "prisma migrate dev",
     "migrate:dev:create": "prisma migrate dev --create-only",
@@ -19,9 +22,9 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "start": "nest start",
     "start:dev": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "docker:dev": "docker-compose up --build dev sonic db",
-    "docker:prod": "docker-compose up --build prod sonic",
     "prepare": "husky install"
   },
   "dependencies": {

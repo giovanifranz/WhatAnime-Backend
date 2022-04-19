@@ -4,16 +4,9 @@ import { LoggerModule } from 'nestjs-pino'
 
 import { DatabaseModule } from './database/database.module'
 import { AnimesModule } from './http/http.module'
-import { SonicModule } from './sonic/sonic.module'
 import { loggerConfig } from './config'
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    LoggerModule.forRoot(loggerConfig),
-    DatabaseModule,
-    AnimesModule,
-    SonicModule,
-  ],
+  imports: [ConfigModule.forRoot(), LoggerModule.forRoot(loggerConfig), DatabaseModule, AnimesModule],
 })
 export class AppModule {}

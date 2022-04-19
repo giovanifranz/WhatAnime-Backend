@@ -49,8 +49,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+      - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: whatanime-backend
           heroku_email: giovanifranz151@gmail.com
+          usedocker: true
+        env:
+          NODE_ENV: production
+          NPM_CONFIG_PRODUCTION: false
+          AUTH_SONIC: SecretPassword
