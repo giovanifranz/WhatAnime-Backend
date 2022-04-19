@@ -17,7 +17,7 @@
     "prisma:generate": "npx prisma generate",
     "prisma:studio": "npx prisma studio",
     "prebuild": "rimraf dist",
-    "postinstall": "npm run prestart:prod",
+    "postinstall": "tsc --sourceMap false",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
