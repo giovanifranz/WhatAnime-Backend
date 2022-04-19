@@ -1,0 +1,30 @@
+query {
+  searchAnimeById(id: 918) {
+    quotes {
+      quote
+    }
+  }
+}
+
+query {
+  searchAnimesByTitle(title: "naruto") {
+    quotes {
+      quote
+    }
+  }
+}
+
+query {
+  getRandomAnimeQuote {
+    character
+    quote
+    title
+    slug
+  }
+}
+
+query {
+  getAnimesQuoteByTitle(title: "naru") {
+    quote
+  }
+}
