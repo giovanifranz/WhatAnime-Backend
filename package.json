@@ -17,7 +17,6 @@
     "prisma:generate": "npx prisma generate",
     "prisma:studio": "npx prisma studio",
     "prebuild": "rimraf dist",
-    "postinstall": "tsc --sourceMap false",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -25,7 +24,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "docker:dev": "docker-compose up --build dev sonic db",
+    "docker:dev": "docker-compose up --build",
     "prepare": "husky install"
   },
   "dependencies": {

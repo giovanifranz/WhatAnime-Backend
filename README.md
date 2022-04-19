@@ -18,17 +18,21 @@
 
 ### Stack
 
+[Docker](https://www.docker.com) Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
+
 [Nest](https://github.com/nestjs/nest) Framework TypeScript starter repository.
 
-[Sonic](https://github.com/valeriansaliou/sonic) Sonic is a fast, lightweight and schema-less search backend. It ingests search texts and identifier tuples that can then be queried against in a microsecond's time.
+[Sonic](https://github.com/valeriansaliou/sonic) is a fast, lightweight and schema-less search backend. It ingests search texts and identifier tuples that can then be queried against in a microsecond's time.
 
-[Prisma ORM](https://www.prisma.io/) Prisma helps app developers build faster and make fewer errors with an open source database toolkit for PostgreSQL, MySQL, SQL Server, SQLite, MongoDB and CockroachDB (Preview).
+[Prisma ORM](https://www.prisma.io/) helps app developers build faster and make fewer errors with an open source database toolkit for PostgreSQL, MySQL, SQL Server, SQLite, MongoDB and CockroachDB (Preview).
 
 [Typescript](https://github.com/microsoft/TypeScript) Superset of JavaScript.
 
 [Apollo Graphql](https://www.apollographql.com/) The Apollo Graph Platform unifies GraphQL across your apps and services, unlocking faster delivery for your engineering teams.
 
-[Docker](https://www.docker.com) Docker is a set of platform as a service products that use OS-level virtualization to deliver software in packages called containers.
+[GraphCDN](https://graphcdn.io/) Reduce server load and API response times by caching your GraphQL queries at 60 locations. Data is automatically updated at the edge. Even user-specific data is supported.
+
+[Heroku](https://www.heroku.com/) is a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
 
 </Br>
 
@@ -55,21 +59,11 @@ ___
 ___
 </Br>
 
-## Running the app
-
-```bash
-$ npm run dev
-
-```
-
-</Br>
-
-___
-</Br>
-
 ## Rotas
 
 API: http://localhost:3000/graphql
+
+Visite: https://whatanime-backend.graphcdn.app/
 
 </Br>
 
