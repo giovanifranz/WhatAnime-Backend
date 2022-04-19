@@ -1,0 +1,13 @@
+build:
+  docker:
+    web: Dockerfile-prod
+run:
+  web: npm run start:prod
+  release:
+    - npx prisma migrate deploy
+    - npx prisma generate
+
+setup:
+  addons:
+  - plan: heroku-postgresql
+    as: database
