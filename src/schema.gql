@@ -1,0 +1,39 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Quote {
+  slug: String!
+  title: String!
+  character: String!
+  quote: String!
+  animes: [Anime!]!
+}
+
+type Anime {
+  mal_id: Float!
+  title: String!
+  slug: String!
+  title_english: String
+  title_japanese: String
+  year: Float
+  score: Float
+  type: String!
+  source: String!
+  image_url: String!
+  synopsis: String
+  status: String!
+  duration: String!
+  aired_string: String!
+  premiered: String
+  rating: String!
+  episodes: Float
+  quotes: [Quote!]
+}
+
+type Query {
+  searchAnimeById(id: Float!): Anime!
+  searchAnimesByTitle(title: String!): [Anime!]!
+  getRandomAnimeQuote: Quote!
+  getAnimesQuoteByTitle(title: String!): [Quote!]!
+}
