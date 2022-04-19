@@ -59,3 +59,4 @@ jobs:
           NODE_ENV: production
           NPM_CONFIG_PRODUCTION: false
           AUTH_SONIC: SecretPassword
+
